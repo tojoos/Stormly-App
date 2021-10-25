@@ -9,4 +9,5 @@ public interface RecordService {
     Set<Record> findAll();
     Record findById(Long id);
     void deleteById(Long id);
+    void fetchData();
 }
