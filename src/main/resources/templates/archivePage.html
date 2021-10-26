@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/mainlayout :: mainLayout(~{::body})}">
+
+<body>
+    <div class="container-fluid" style="margin-top: 25px" >
+        <table class="table table-hover table-striped" style="margin-bottom: 15px">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Temperature</th>
+                    <th>Humidity</th>
+                    <th>Pressure</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="record : ${records}">
+                    <td th:text="${record.id}"></td>
+                    <td th:text="${record.getFormattedDate()}"></td>
+                    <td th:text="${record.temperature + ' °C'}"></td>
+                    <td th:text="${record.humidity*100 + ' %'}"></td>
+                    <td th:text="${record.pressure + ' hPa'}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="button" class="btn btn-outline-success">Day</button>
+        <button type="button" class="btn btn-outline-success">Week</button>
+        <button type="button" class="btn btn-outline-success">Month</button>
+        <button type="button" class="btn btn-outline-success">All</button>
+    </div>
+</body>
+</html>
