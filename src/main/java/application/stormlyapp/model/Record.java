@@ -3,8 +3,8 @@ package application.stormlyapp.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -30,4 +30,9 @@ public class Record {
 
     @Column(name = "pressure")
     private double pressure;
+
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return date.format(formatter);
+    }
 }
