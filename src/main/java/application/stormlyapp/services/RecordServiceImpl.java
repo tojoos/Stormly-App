@@ -71,12 +71,12 @@ public class RecordServiceImpl implements RecordService {
             while((line = br.readLine()) != null) {
                 String[] strings = line.split(" ");
                 if(strings.length == 4) {
-                    //date = LocalDateTime.of(strings[0]);
+                    date = LocalDateTime.parse(strings[0]);
                     temperature = Double.parseDouble(strings[1]);
                     humidity = Double.parseDouble(strings[2]);
                     pressure = Double.parseDouble(strings[3]);
                     importedRecordsCount++;
-                    records.add(Record.builder().temperature(temperature).humidity(humidity).pressure(pressure).date(LocalDateTime.now()).build());
+                    records.add(Record.builder().temperature(temperature).humidity(humidity).pressure(pressure).date(date).build());
                 } else {
                     log.error("Wrong data input.. skipping record");
                 }
