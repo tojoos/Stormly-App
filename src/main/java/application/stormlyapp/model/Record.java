@@ -3,6 +3,7 @@ package application.stormlyapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,15 +20,22 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @PastOrPresent
     @Column(name = "date")
     private LocalDateTime date;
 
+    @Min(-50)
+    @Max(100)
     @Column(name = "temperature")
     private double temperature;
 
+    @DecimalMax("1.0")
+    @DecimalMin("0.0")
     @Column(name = "humidity")
     private double humidity;
 
+    @DecimalMax("1100")
+    @DecimalMin("800")
     @Column(name = "pressure")
     private double pressure;
 
