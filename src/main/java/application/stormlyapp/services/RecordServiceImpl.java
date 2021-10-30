@@ -9,6 +9,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -58,6 +61,17 @@ public class RecordServiceImpl implements RecordService {
         } else {
             log.debug("Couldn't delete Record id: " + id + ". Record doesn't exist in database");
         }
+    }
+
+    @Override
+    public Set<Record> findAllBeforeDate(Long amount, TemporalUnit units) {
+        Set<Record> matchingRecords = new HashSet<>();
+        for(Record record : this.findAll()) {
+            if(record.getDate().isAfter(LocalDateTime.now().minus(amount, units))) {
+                matchingRecords.add(record);
+            }
+        }
+        return matchingRecords;
     }
 
     @Override
