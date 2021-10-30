@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,9 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Set<Record> findAll() {
-        return (Set<Record>) recordRepository.findAll();
+        HashSet<Record> records = new HashSet<>();
+        recordRepository.findAll().forEach(records::add);
+        return records;
     }
 
     @Override

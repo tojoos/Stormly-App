@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -118,7 +121,18 @@ public class RecordServiceTest {
     }
 
     @Test
-    void testFetchData() {
-        //todo fetch data tests - no file, no records etc
+    void testFetchData() throws FileNotFoundException {
+        //given
+        String FILE_URL = "src/main/resources/data.txt";
+        BufferedReader br = new BufferedReader(new FileReader(FILE_URL));
+        long linesToRead = br.lines().count();
+
+        //when
+        when(recordRepository.save(any(Record.class))).thenReturn(Record.builder().id(1L).build());
+
+        //then
+        recordService.fetchData();
+
+        verify(recordRepository,times((int) linesToRead)).save(any(Record.class));
     }
 }
