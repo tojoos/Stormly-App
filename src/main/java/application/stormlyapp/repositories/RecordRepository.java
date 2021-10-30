@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface RecordRepository extends CrudRepository<Record, Long> {
     Optional<Record> findRecordByDate(LocalDateTime date);
-    Optional<Record> findAllByDate(LocalDateTime date);
 }
