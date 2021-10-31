@@ -2,7 +2,6 @@ package application.stormlyapp.bootstrap;
 
 import application.stormlyapp.services.RecordService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;

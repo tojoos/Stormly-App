@@ -1,6 +1,5 @@
 package application.stormlyapp.controllers;
 
-import application.stormlyapp.model.Record;
 import application.stormlyapp.services.RecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 public class RecordController {

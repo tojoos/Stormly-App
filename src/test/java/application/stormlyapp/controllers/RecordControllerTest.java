@@ -44,5 +44,4 @@ public class RecordControllerTest {
 
         verify(recordService,times(1)).findAll();
     }
-
 }
