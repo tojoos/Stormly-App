@@ -29,7 +29,7 @@ public class RecordController {
     }
 
     @GetMapping("/archive/{timeStamp}")
-    public String getArchivePageDay(Model model, @PathVariable String timeStamp) {
+    public String getArchivePageFiltered(Model model, @PathVariable String timeStamp) {
         ChronoUnit unit;
 
         switch(timeStamp) {
