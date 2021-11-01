@@ -45,7 +45,7 @@ public class RecordServiceTest {
     @Test
     void testSaveNull() {
         //when
-        when(recordRepository.save(any(Record.class))).thenReturn(Record.builder().id(1L).build());
+        when(recordRepository.save(any(Record.class))).thenReturn(null);
         Record savedRecord = recordService.save(null);
 
         //then

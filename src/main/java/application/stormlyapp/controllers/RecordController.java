@@ -33,6 +33,9 @@ public class RecordController {
         ChronoUnit unit;
 
         switch(timeStamp) {
+            case "Hour":
+                unit = ChronoUnit.HOURS;
+                break;
             case "Day":
                 unit = ChronoUnit.DAYS;
                 break;
