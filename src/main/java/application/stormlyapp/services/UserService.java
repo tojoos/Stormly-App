@@ -5,7 +5,7 @@ import application.stormlyapp.model.User;
 import java.util.Set;
 
 public interface UserService {
-    User save(User record);
+    User save(User user);
     Set<User> findAll();
     User findById(Long id);
     void deleteById(Long id);

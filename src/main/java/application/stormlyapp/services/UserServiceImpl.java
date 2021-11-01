@@ -52,4 +52,5 @@ public class UserServiceImpl implements UserService {
             log.debug("Couldn't delete id: " + id + ". User doesn't exist in database");
         }
     }
+
 }
