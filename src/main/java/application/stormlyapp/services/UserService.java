@@ -9,4 +9,5 @@ public interface UserService {
     Set<User> findAll();
     User findById(Long id);
     void deleteById(Long id);
+    User findByLogin(String login);
 }

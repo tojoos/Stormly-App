@@ -1,6 +1,5 @@
 package application.stormlyapp.services;
 
-import application.stormlyapp.model.Record;
 import application.stormlyapp.model.User;
 import application.stormlyapp.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -53,4 +52,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User findByLogin(String login) {
+        return userRepository.findByLogin(login).orElse(null);
+    }
 }
