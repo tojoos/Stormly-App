@@ -142,7 +142,7 @@ public class RecordServiceTest {
     @Test
     void testFindAllBeforeDate() {
         //given
-        Long amount1 = 7L;
+        Long amount1 = 14L;
         TemporalUnit unit1 = ChronoUnit.DAYS;
         Long amount2 = 2L;
         TemporalUnit unit2 = ChronoUnit.YEARS;

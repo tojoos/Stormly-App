@@ -1,8 +1,10 @@
 package application.stormlyapp.model;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 @Setter
 @Getter
@@ -20,9 +22,11 @@ public class User {
     @Column(name = "login")
     private String login;
 
+    @Length(min = 6, message = "Password's length must be at least 6 digits long")
     @Column(name = "password")
     private String password;
 
+    @Email(message = "Wrong email format")
     @Column(name = "email")
     private String email;
 }

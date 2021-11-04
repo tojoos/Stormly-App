@@ -2,7 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/mainlayout :: mainLayout(~{::body})}">
 
 <body>
-    <div class="container-fluid" style="margin-top: 150px">
+    <div class="container-fluid" th:if="${registered}" style="margin-top: 150px">
+        <div class="card border-success col-md-4 offset-4">
+            <div style="text-align: center;">
+                <div th:text="${'Your new account: ' + registeredEmail + ' has been successfully created.'}" style="margin: 10px; font-weight: bold"> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: 100px">
         <div class="card border-success col-md-6 offset-3">
             <div style="text-align: center;">
                 <p style="font-size: 40px; margin-top: 20px">Login</p>
