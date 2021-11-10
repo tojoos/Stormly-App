@@ -10,4 +10,5 @@ public interface UserService {
     User findById(Long id);
     void deleteById(Long id);
     User findByLogin(String login);
+    boolean isUserValid(String login, String password);
 }

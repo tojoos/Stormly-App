@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group" th:class="${#fields.hasErrors('password')}
                 ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
-                    <input type="text" th:field="*{password}" class="form-control" placeholder="Password">
+                    <input type="password" th:field="*{password}" class="form-control" placeholder="Password" th:errorclass="is-invalid">
                     <small class="form-text text-muted" th:if="${!#fields.hasErrors('password')}">Password's length must be greater than 5 characters</small>
                     <span class="help-block" th:if="${#fields.hasErrors('password')}">
                         <ul>

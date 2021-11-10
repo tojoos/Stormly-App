@@ -30,13 +30,19 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public String processLoginForm(@Valid @ModelAttribute("user") User user, BindingResult result) {
-        //todo user password and login authorization
+    public String processLoginForm(@Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             result.getAllErrors().forEach(err -> log.debug(err.toString()));
             return "user/loginForm";
         } else {
-            return "redirect:/control-panel";
+            if(userService.isUserValid(user.getLogin(), user.getPassword())) {
+                log.debug("Access guaranteed");
+                redirectAttributes.addFlashAttribute("loggedUser", user);
+                return "redirect:/control-panel";
+            } else {
+                log.debug("Wrong email/password");
+                return "user/loginForm";
+            }
         }
     }
 
@@ -57,5 +63,11 @@ public class UserController {
             redirectAttributes.addFlashAttribute("registeredEmail", newUser.getEmail());
             return "redirect:/user/login";
         }
+    }
+
+    @GetMapping("/control-panel")
+    public String showControlPanel(Model model) {
+        model.addAttribute("users", userService.findAll());
+        return "user/control-panelPage";
     }
 }

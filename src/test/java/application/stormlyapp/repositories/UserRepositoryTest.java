@@ -18,17 +18,17 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        userRepository.save(User.builder().login("login1").password("password1").build());
-        userRepository.save(User.builder().login("login2").password("password2").build());
-        userRepository.save(User.builder().login("login3").password("password3").build());
-        userRepository.save(User.builder().login("login9").password("password9").build());
+        userRepository.save(User.builder().login("login1").password("password1").email("sample1@email.com").build());
+        userRepository.save(User.builder().login("login2").password("password2").email("sample1@email.com").build());
+        userRepository.save(User.builder().login("login3").password("password3").email("sample1@email.com").build());
+        userRepository.save(User.builder().login("login9").password("password9").email("sample1@email.com").build());
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     void testSave() {
         //given
-        User user1 = User.builder().build();
+        User user1 = User.builder().login("log").password("password").email("email@email.com").build();
 
         assertEquals(4, userRepository.findAll().spliterator().estimateSize());
 
@@ -49,7 +49,7 @@ class UserRepositoryTest {
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     void testFindById() {
         //given
-        User user1 = User.builder().id(5L).build();
+        User user1 = User.builder().id(5L).login("log").password("password").email("email@email.com").build();
         userRepository.save(user1);
 
         //when

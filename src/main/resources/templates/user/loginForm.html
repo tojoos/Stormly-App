@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/mainlayout :: mainLayout(~{::body})}">
 
 <body>
-    <div class="container-fluid" th:if="${registered}" style="margin-top: 150px">
+    <div class="container-fluid" th:if="${registered}" style="margin-top: 100px">
         <div class="card border-success col-md-4 offset-4">
             <div style="text-align: center;">
-                <div th:text="${'Your new account: ' + registeredEmail + ' has been successfully created.'}" style="margin: 10px; font-weight: bold"> </div>
+                <div th:text="${'Your new account: ' + registeredEmail + ' has been successfully created. You can now log in.'}" style="margin: 20px; font-weight: bold"> </div>
             </div>
         </div>
     </div>
@@ -18,11 +18,12 @@
             </div>
             <div class="card-body text-secondary">
                 <form th:object="${user}" th:action="@{/user/login}" method="post">
-                    <div class="form-group" style="margin-bottom: 20px">
+ <!-- to do-->      <div class="form-group" th:class="${false} ?
+                                 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
                         <input type="text" th:field="*{login}" class="form-control" placeholder="Enter login">
                     </div>
                     <div class="form-group" style="margin-bottom: 20px">
-                        <input type="text" th:field="*{password}" class="form-control" placeholder="Password">
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="Password">
                         <small class="form-text text-muted">Forget your password?</small>
                     </div>
                     <div class="col-sm-4 offset-4">

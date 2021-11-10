@@ -56,4 +56,15 @@ public class UserServiceImpl implements UserService {
     public User findByLogin(String login) {
         return userRepository.findByLogin(login).orElse(null);
     }
+
+    @Override
+    public boolean isUserValid(String login, String password) {
+        User userFound = this.findByLogin(login);
+        if(userFound != null) {
+            return userFound.getPassword().equals(password);
+        } else {
+            return false;
+        }
+    }
+
 }
