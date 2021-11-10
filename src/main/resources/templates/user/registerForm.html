@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group" th:class="${#fields.hasErrors('login')}
                 ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
-                    <input type="text" th:field="*{login}" class="form-control" placeholder="Login">
+                    <input type="text" th:field="*{login}" class="form-control" placeholder="Login" th:errorclass="is-invalid">
                     <span class="help-block" th:if="${#fields.hasErrors('login')}">
                         <ul>
                             <li th:each="err : ${#fields.errors('login')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
