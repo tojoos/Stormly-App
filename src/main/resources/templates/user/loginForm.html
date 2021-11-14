@@ -2,7 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/mainlayout :: mainLayout(~{::body})}">
 
 <body>
-    <div class="container-fluid" style="margin-top: 150px">
+    <div class="container-fluid" th:if="${registered}" style="margin-top: 100px">
+        <div class="card border-success col-md-4 offset-4">
+            <div style="text-align: center;">
+                <div th:text="${'Your new account: ' + registeredEmail + ' has been successfully created. You can now log in.'}" style="margin: 20px; font-weight: bold"> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: 100px">
         <div class="card border-success col-md-6 offset-3">
             <div style="text-align: center;">
                 <p style="font-size: 40px; margin-top: 20px">Login</p>
@@ -10,12 +18,25 @@
             </div>
             <div class="card-body text-secondary">
                 <form th:object="${user}" th:action="@{/user/login}" method="post">
-                    <div class="form-group" style="margin-bottom: 20px">
-                        <input type="text" th:field="*{login}" class="form-control" placeholder="Enter login">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group" th:class="${#fields.hasErrors('login')}
+                    ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
+                        <input type="text" th:field="*{login}" class="form-control" placeholder="Enter login" th:errorclass="is-invalid">
+                        <span class="help-block" th:if="${#fields.hasErrors('login')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('login')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                            </ul>
+                        </span>
                     </div>
-                    <div class="form-group" style="margin-bottom: 20px">
-                        <input type="text" th:field="*{password}" class="form-control" placeholder="Password">
+                    <div class="form-group" th:class="${#fields.hasErrors('password')}
+                    ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="Password" th:errorclass="is-invalid">
                         <small class="form-text text-muted">Forget your password?</small>
+                        <span class="help-block" th:if="${#fields.hasErrors('password')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('password')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                            </ul>
+                        </span>
                     </div>
                     <div class="col-sm-4 offset-4">
                         <button type="submit" class="btn btn-outline-success btn-block" style="min-width: 200px">Login</button>

@@ -10,15 +10,34 @@
         </div>
         <div class="card-body text-secondary">
             <form th:object="${user}" th:action="@{/user/register}" method="post">
-                <div class="form-group" style="margin-bottom: 20px">
-                    <input type="text" th:field="*{email}" class="form-control" placeholder="Email">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group" th:class="${#fields.hasErrors('email')}
+                ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
+                    <input type="email" th:field="*{email}" class="form-control" placeholder="Email" th:errorclass="is-invalid"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('email')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('email')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                        </ul>
+                    </span>
                 </div>
-                <div class="form-group" style="margin-bottom: 20px">
-                    <input type="text" th:field="*{login}" class="form-control" placeholder="Login">
+                <div class="form-group" th:class="${#fields.hasErrors('login')}
+                ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
+                    <input type="text" th:field="*{login}" class="form-control" placeholder="Login" th:errorclass="is-invalid">
+                    <span class="help-block" th:if="${#fields.hasErrors('login')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('login')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                        </ul>
+                    </span>
                 </div>
-                <div class="form-group" style="margin-bottom: 20px">
-                    <input type="text" th:field="*{password}" class="form-control" placeholder="Password">
-                    <small class="form-text text-muted">Password's length must be greater than 5 characters</small>
+                <div class="form-group" th:class="${#fields.hasErrors('password')}
+                ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
+                    <input type="password" th:field="*{password}" class="form-control" placeholder="Password" th:errorclass="is-invalid">
+                    <small class="form-text text-muted" th:if="${!#fields.hasErrors('password')}">Password's length must be greater than 5 characters</small>
+                    <span class="help-block" th:if="${#fields.hasErrors('password')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('password')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                        </ul>
+                    </span>
                 </div>
                 <div class="col-sm-4 offset-4">
                     <button type="submit" class="btn btn-outline-success btn-block" style="min-width: 200px">Register</button>

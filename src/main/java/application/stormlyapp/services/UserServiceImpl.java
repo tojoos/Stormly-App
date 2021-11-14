@@ -1,6 +1,5 @@
 package application.stormlyapp.services;
 
-import application.stormlyapp.model.Record;
 import application.stormlyapp.model.User;
 import application.stormlyapp.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +49,21 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
         } else {
             log.debug("Couldn't delete id: " + id + ". User doesn't exist in database");
+        }
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return userRepository.findByLogin(login).orElse(null);
+    }
+
+    @Override
+    public boolean isUserValid(String login, String password) {
+        User userFound = this.findByLogin(login);
+        if(userFound != null) {
+            return userFound.getPassword().equals(password);
+        } else {
+            return false;
         }
     }
 

@@ -142,7 +142,7 @@ public class RecordServiceTest {
     @Test
     void testFindAllBeforeDate() {
         //given
-        Long amount1 = 7L;
+        Long amount1 = 14L;
         TemporalUnit unit1 = ChronoUnit.DAYS;
         Long amount2 = 2L;
         TemporalUnit unit2 = ChronoUnit.YEARS;
@@ -164,7 +164,7 @@ public class RecordServiceTest {
         //then
         Set<Record> foundRecords1 = recordService.findAllBeforeDate(amount1, unit1);
         Set<Record> foundRecords2 = recordService.findAllBeforeDate(amount2, unit2);
-        assertEquals(2, foundRecords1.size());
+        assertEquals(0, foundRecords1.size());
         assertEquals(5, foundRecords2.size());
     }
 }
