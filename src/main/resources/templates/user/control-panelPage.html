@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/mainlayout :: mainLayout(~{::body})}">
+
+<body>
+    <div class="container-fluid" th:if="${loggedUser != null}" style="margin-top: 100px">
+        <div class="card border-success col-md-4 offset-4">
+            <div style="text-align: center;">
+                <div th:text="${'Welcome back ' + loggedUser.login + '!'}" style="margin: 20px; font-weight: bold"> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" th:if="${deletedUserId != null}" style="margin-top: 100px">
+        <div class="card border-secondary col-md-4 offset-4">
+            <div style="text-align: center;">
+                <div th:text="${'User ' + deletedUserId + ' deleted successfuly!'}" style="margin: 20px; font-weight: bold"> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-left: auto; margin-right: auto">
+        <h2 style="margin-bottom: 20px; margin-top: 50px">Control panel</h2>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Login</th>
+                    <th>Password</th>
+                    <th>Delete User</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.login}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td><a th:href="@{'/control-panel/delete/'+ ${user.id}}">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

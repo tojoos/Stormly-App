@@ -70,4 +70,13 @@ public class UserController {
         model.addAttribute("users", userService.findAll());
         return "user/control-panelPage";
     }
+
+    @GetMapping("/control-panel/delete/{id}")
+    public String processDeleteUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        User userToDelete = userService.findById(id);
+        if(userToDelete != null)
+            userService.deleteById(id);
+        redirectAttributes.addFlashAttribute("deletedUserId", id);
+        return "redirect:/control-panel";
+    }
 }
