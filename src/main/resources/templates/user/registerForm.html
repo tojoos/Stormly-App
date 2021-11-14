@@ -13,7 +13,7 @@
                 <input type="hidden" th:field="*{id}"/>
                 <div class="form-group" th:class="${#fields.hasErrors('email')}
                 ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
-                    <input type="text" th:field="*{email}" class="form-control" placeholder="Email" th:errorclass="is-invalid"/>
+                    <input type="email" th:field="*{email}" class="form-control" placeholder="Email" th:errorclass="is-invalid"/>
                     <span class="help-block" th:if="${#fields.hasErrors('email')}">
                         <ul>
                             <li th:each="err : ${#fields.errors('email')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>

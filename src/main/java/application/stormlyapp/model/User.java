@@ -20,16 +20,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Login cannot be empty")
     @Column(name = "login")
     private String login;
 
-    @NotBlank
-    @Length(min = 6, message = "Password's length must be at least 6 digits long")
+    @NotBlank(message = "Password cannot be empty")
+    @Length(min = 6, message = "Password must contain at least 6 digits")
     @Column(name = "password")
     private String password;
 
-    @NotBlank
     @Email(message = "Wrong email format")
     @Column(name = "email")
     private String email;

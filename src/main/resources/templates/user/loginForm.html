@@ -18,13 +18,25 @@
             </div>
             <div class="card-body text-secondary">
                 <form th:object="${user}" th:action="@{/user/login}" method="post">
- <!-- to do-->      <div class="form-group" th:class="${false} ?
-                                 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
-                        <input type="text" th:field="*{login}" class="form-control" placeholder="Enter login">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group" th:class="${#fields.hasErrors('login')}
+                    ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
+                        <input type="text" th:field="*{login}" class="form-control" placeholder="Enter login" th:errorclass="is-invalid">
+                        <span class="help-block" th:if="${#fields.hasErrors('login')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('login')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                            </ul>
+                        </span>
                     </div>
-                    <div class="form-group" style="margin-bottom: 20px">
-                        <input type="password" th:field="*{password}" class="form-control" placeholder="Password">
+                    <div class="form-group" th:class="${#fields.hasErrors('password')}
+                    ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="Password" th:errorclass="is-invalid">
                         <small class="form-text text-muted">Forget your password?</small>
+                        <span class="help-block" th:if="${#fields.hasErrors('password')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('password')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                            </ul>
+                        </span>
                     </div>
                     <div class="col-sm-4 offset-4">
                         <button type="submit" class="btn btn-outline-success btn-block" style="min-width: 200px">Login</button>
