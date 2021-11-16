@@ -57,6 +57,11 @@ public class UserController {
 
     @PostMapping("/user/register")
     public String processRegisterForm(@Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes redirectAttributes) {
+        if(!user.getPassword().equals(user.getConfirmedPassword())) {
+            result.rejectValue("confirmedPassword", "error.confirmedPassword", "Passwords don't match");
+            result.rejectValue("password", "error.password","");
+            return "user/registerForm";
+        }
         if(result.hasErrors()) {
             result.getAllErrors().forEach(err -> log.debug(err.toString()));
             return "user/registerForm";
@@ -80,6 +85,7 @@ public class UserController {
         if(userToDelete != null)
             userService.deleteById(id);
         redirectAttributes.addFlashAttribute("deletedUserId", id);
+        log.debug("Deleting user id: " + id);
         return "redirect:/control-panel";
     }
 }

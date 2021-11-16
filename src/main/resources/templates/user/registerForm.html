@@ -29,14 +29,20 @@
                         </ul>
                     </span>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('password')}
+                <div class="form-group" th:class="${#fields.hasErrors('password') || #fields.hasErrors('confirmedPassword')}
                 ? 'form-group text-danger' : 'form-group'" style="margin-bottom: 20px">
                     <input type="password" th:field="*{password}" class="form-control" placeholder="Password" th:errorclass="is-invalid">
-                    <small class="form-text text-muted" th:if="${!#fields.hasErrors('password')}">Password's length must be greater than 5 characters</small>
+                    <small class="form-text text-muted" th:if="${!#fields.hasErrors('password') && !#fields.hasErrors('confirmedPassword')}">Password's length must be greater than 5 characters</small>
                     <span class="help-block" th:if="${#fields.hasErrors('password')}">
                         <ul>
-                            <li th:each="err : ${#fields.errors('password')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                            <li th:each="err : ${#fields.errors('password')}" th:if="${!#strings.isEmpty(err)}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
                         </ul>
+                    </span>
+                    <input type="password" th:field="*{confirmedPassword}" class="form-control" placeholder="Confirm Password" th:errorclass="is-invalid">
+                    <span class="help-block" th:if="${#fields.hasErrors('confirmedPassword')}">
+                         <ul>
+                             <li th:each="err : ${#fields.errors('confirmedPassword')}" th:text="${#strings.capitalize(err)}" style="font-size: 14px"></li>
+                         </ul>
                     </span>
                 </div>
                 <div class="col-sm-4 offset-4">

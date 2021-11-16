@@ -29,6 +29,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Transient
+    private String confirmedPassword;
+
     @Email(message = "Wrong email format")
     @Column(name = "email")
     private String email;
