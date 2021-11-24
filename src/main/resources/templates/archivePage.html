@@ -11,6 +11,7 @@
                     <th>Temperature</th>
                     <th>Humidity</th>
                     <th>Pressure</th>
+                    <th>Exposure</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,10 +21,10 @@
                     <td th:text="${record.temperature + ' °C'}"></td>
                     <td th:text="${record.humidity*100 + ' %'}"></td>
                     <td th:text="${record.pressure + ' hPa'}"></td>
+                    <td th:text="${record.exposure + ' %'}"></td>
                 </tr>
             </tbody>
         </table>
-
             <a class="btn btn-outline-success" type="submit" th:href="@{/archive/Hour}">Hour</a>
             <a class="btn btn-outline-success" type="submit" th:href="@{/archive/Day}">Day</a>
             <a class="btn btn-outline-success" type="submit" th:href="@{/archive/Week}">Week</a>

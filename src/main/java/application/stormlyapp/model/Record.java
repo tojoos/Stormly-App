@@ -39,6 +39,11 @@ public class Record {
     @Column(name = "pressure")
     private double pressure;
 
+    @DecimalMin("0.0")
+    @DecimalMax("1500")
+    @Column(name = "exposure")
+    private double exposure;
+
     public String getFormattedDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         return date.format(formatter);
