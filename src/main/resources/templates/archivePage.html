@@ -23,6 +23,9 @@
                     <td th:text="${record.pressure + ' hPa'}"></td>
                     <td th:text="${record.exposure + ' %'}"></td>
                 </tr>
+                <tr th:if="${#lists.size(records)} == 0">
+                    <td colspan="6" style="text-align: center; font-size: 18px">No data found</td>
+                </tr>
             </tbody>
         </table>
             <a class="btn btn-outline-success" type="submit" th:href="@{/archive/Hour}">Hour</a>
