@@ -1,5 +1,6 @@
 package application.stormlyapp.services;
 
+import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.model.User;
 import application.stormlyapp.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("For ID: " + id + " user was not found."));
     }
 
     @Override
@@ -49,6 +50,7 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
         } else {
             log.debug("Couldn't delete id: " + id + ". User doesn't exist in database");
+            throw new NotFoundException("For ID: " + id + " user was not found.");
         }
     }
 

@@ -1,5 +1,6 @@
 package application.stormlyapp.services;
 
+import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.model.Record;
 import application.stormlyapp.model.User;
 import application.stormlyapp.repositories.UserRepository;
@@ -93,10 +94,10 @@ class UserServiceImplTest {
     void findByIdNotExisting() {
         //when
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-        User foundUser = userService.findById(1L);
 
-        //then
-        assertNull(foundUser);
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.findById(1L), "Expected to throw, but didn't.");
+
+        assertEquals("For ID: " + 1L + " user was not found.", exception.getMessage());
         verify(userRepository,times(1)).findById(any());
     }
 
@@ -120,12 +121,15 @@ class UserServiceImplTest {
     @Test
     void deleteByIdNotExisting() {
         HashSet<User> users = new HashSet<>();
+        Long Id = 1L;
 
         //when
         when(userRepository.findAll()).thenReturn(users);
 
         //when
-        userService.deleteById(1L);
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.deleteById(Id), "Expected to throw, but didn't.");
+
+        assertEquals("For ID: " + Id + " user was not found.", exception.getMessage());
 
         verify(userRepository,times(1)).findAll();
         verify(userRepository,times(0)).deleteById(any());

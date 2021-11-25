@@ -1,5 +1,6 @@
 package application.stormlyapp.services;
 
+import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.model.Record;
 import application.stormlyapp.repositories.RecordRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +61,7 @@ public class RecordServiceImpl implements RecordService {
             recordRepository.deleteById(id);
         } else {
             log.debug("Couldn't delete Record id: " + id + ". Record doesn't exist in database");
+            throw new NotFoundException("For ID: " + id + " record was not found.");
         }
     }
 

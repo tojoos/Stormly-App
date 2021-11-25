@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/mainlayout :: mainLayout(~{::body})}">
 
 <body>
-    <div style="text-align: center; font-family: Rockwell,serif; font-size: 150px; margin-top: 250px;">404</div>
-    <div style="text-align: center; font-family: Rockwell,serif; font-size: 30px; margin-bottom: 10px;">Page not found</div>
+    <div style="text-align: center; font-family: Rockwell,serif; font-size: 150px; margin-top: 200px;">404</div>
+    <div style="text-align: center; font-family: Rockwell,serif; font-size: 30px; margin-bottom: 5px;">Page not found</div>
+    <div th:text="${exception.getMessage()}" style="text-align: center; font-family: Rockwell,serif; font-size: 18px; font-weight: lighter; margin-bottom: 10px;"></div>
     <div class="text-center">
         <a class="btn btn-outline-success" style="font-family: Rockwell,serif; font-size: 16px" type="submit" th:href="@{/}">Go to homepage</a>
     </div>
