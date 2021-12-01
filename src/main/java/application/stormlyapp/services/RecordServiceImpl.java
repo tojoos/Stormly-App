@@ -10,13 +10,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -108,5 +104,28 @@ public class RecordServiceImpl implements RecordService {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public Record findByDateTime(LocalDateTime dateTime) {
+        Set<Record> records = findAll();
+        Set<Record> sortedRecords = records.stream()
+                .sorted(Comparator.comparing(Record::getDate).reversed())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        for(Record record : sortedRecords) {
+            if(dateTime.isAfter(record.getDate()) || dateTime.isEqual(record.getDate())) {
+                return record;
+            }
+        }
+        throw new NotFoundException("Not data in database for given datetime: " + dateTime);
+    }
+
+    @Override
+    public List<Record> findByDateHourly(LocalDateTime dateTime) {
+        List<Record> records = new LinkedList<>();
+        for(int i=0; i<5; i++) {
+            records.add(findByDateTime(dateTime.minusHours(i)));
+        }
+        return records;
     }
 }

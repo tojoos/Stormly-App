@@ -2,7 +2,9 @@ package application.stormlyapp.services;
 
 import application.stormlyapp.model.Record;
 
+import java.time.LocalDateTime;
 import java.time.temporal.TemporalUnit;
+import java.util.List;
 import java.util.Set;
 
 public interface RecordService {
@@ -12,4 +14,7 @@ public interface RecordService {
     void deleteById(Long id);
     void fetchData();
     Set<Record> findAllBeforeDate(Long amount, TemporalUnit units);
+    Record findByDateTime(LocalDateTime dateTime);
+    List<Record> findByDateHourly(LocalDateTime dateTime);
+
 }

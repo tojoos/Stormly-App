@@ -1,5 +1,6 @@
 package application.stormlyapp.services;
 
+import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.model.Record;
 import application.stormlyapp.repositories.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -166,5 +167,48 @@ public class RecordServiceTest {
         Set<Record> foundRecords2 = recordService.findAllBeforeDate(amount2, unit2);
         assertEquals(0, foundRecords1.size());
         assertEquals(5, foundRecords2.size());
+    }
+
+    @Test
+    void testFindByDate() {
+        //given
+        Record record1 = Record.builder().date(LocalDateTime.of(2020,12,5,10,0,0)).build();
+        Record record2 = Record.builder().date(LocalDateTime.of(2020,12,5,10,30,0)).build();
+        Record record3 = Record.builder().date(LocalDateTime.of(2020,12,5,11,30,0)).build();
+        Record record4 = Record.builder().date(LocalDateTime.of(2020,12,6,10,0,0)).build();
+        Record record5 = Record.builder().date(LocalDateTime.of(2020,12,7,10,0,0)).build();
+        Record record6 = Record.builder().date(LocalDateTime.of(2020,12,8,10,0,0)).build();
+        List<Record> records = new ArrayList<>();
+        records.add(record1);
+        records.add(record2);
+        records.add(record3);
+        records.add(record4);
+        records.add(record5);
+        records.add(record6);
+
+        //when
+        when(recordRepository.findAll()).thenReturn(records);
+        recordService.findAll().forEach(s -> System.out.println(s.getDate()));
+
+        Record recordFound1 = recordService.findByDateTime(LocalDateTime.of(2020,12,5,10,15,0));
+        Record recordFound2 = recordService.findByDateTime(LocalDateTime.of(2020,12,7,10,15,0));
+        Record recordFound3 = recordService.findByDateTime(LocalDateTime.of(2020,12,5,10,30,0));
+
+        //then
+        assertEquals(recordFound1, record1);
+        assertEquals(recordFound2, record5);
+        assertEquals(recordFound3, record2);
+    }
+
+    @Test
+    void testFindByDateNotFound() {
+        //given
+        List<Record> records = new ArrayList<>();
+
+        //when
+        when(recordRepository.findAll()).thenReturn(records);
+
+        //then
+        assertThrows(NotFoundException.class, () -> recordService.findByDateTime(LocalDateTime.now()));
     }
 }
