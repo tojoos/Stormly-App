@@ -1,5 +1,6 @@
 package application.stormlyapp.controllers;
 
+import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.services.RecordService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,9 +61,9 @@ public class RecordControllerTest {
     }
 
     @Test
-    void testGetArchivePageFilteredNotFound() throws Exception {
-        mockMvc.perform(get("/archive/something"))
-                .andExpect(status().isOk())
+    void testGetArchivePageFilteredNotFound() throws Exception { //todo fix
+        mockMvc.perform(get("/archive/gregr"))
+                .andExpect(status().isNotFound())
                 .andExpect(view().name("404Page"));
 
        verifyNoInteractions(recordService);

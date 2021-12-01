@@ -28,7 +28,7 @@
                                             <div class="carousel-item active">
                                                 <div class="d-flex justify-content-between mb-4 pb-2">
                                                     <div>
-                                                        <h2 class="display-2"><strong>2°C</strong></h2>
+                                                        <h2 class="display-2" th:text="${recordNow.temperature + '°C'}"><strong>2°C</strong></h2>
                                                         <p class="text-muted mb-0">Gliwice, Poland</p>
                                                     </div>
                                                     <div>
@@ -54,35 +54,11 @@
                                         <div class="carousel-inner">
                                             <div class="carousel-item active">
                                                 <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>2°C</strong></p>
+                                                    <div class="flex-column" th:each="record : ${recordsHourly}">
+                                                        <p class="small" th:text="${record.temperature + '°C'}"><strong>2°C</strong></p>
                                                         <i class="mdi mdi-weather-snowy-heavy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>12:00</strong></p>
-                                                        <p class="mb-0 text-muted" style="font-size: .65rem;">PM</p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>3°C</strong></p>
-                                                        <i class="mdi mdi-weather-snowy-heavy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>1:00</strong></p>
-                                                        <p class="mb-0 text-muted" style="font-size: .65rem;">PM</p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>3°C</strong></p>
-                                                        <i class="mdi mdi-weather-snowy-heavy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>2:00</strong></p>
-                                                        <p class="mb-0 text-muted" style="font-size: .65rem;">PM</p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>2°C</strong></p>
-                                                        <i class="mdi mdi-weather-snowy-rainy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>3:00</strong></p>
-                                                        <p class="mb-0 text-muted" style="font-size: .65rem;">PM</p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>1°C</strong></p>
-                                                        <i class="mdi mdi-weather-snowy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>4:00</strong></p>
-                                                        <p class="mb-0 text-muted" style="font-size: .65rem;">PM</p>
+                                                        <p class="mb-0" th:text="${record.getDate().getHour()}"><strong>12:00</strong></p>
+                                                        <p class="mb-0 text-muted" th:text="${record.getDate().getHour() <= 12 ? 'AM' : 'PM'}" style="font-size: .65rem;">PM</p>
                                                     </div>
                                                 </div>
                                             </div>

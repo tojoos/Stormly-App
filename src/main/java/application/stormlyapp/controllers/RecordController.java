@@ -1,12 +1,17 @@
 package application.stormlyapp.controllers;
 
+import application.stormlyapp.exceptions.NotFoundException;
+import application.stormlyapp.model.Record;
 import application.stormlyapp.services.RecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 public class RecordController {
@@ -18,7 +23,12 @@ public class RecordController {
     }
 
     @GetMapping({"","/"})
-    public String getIndexPage() {
+    public String getIndexPage(Model model) {
+        List<Record> recordsHourly = recordService.findByDateHourly(LocalDateTime.now());
+        List<Record> recordsDaily = new LinkedList<>();
+        model.addAttribute("recordsHourly", recordsHourly);
+        model.addAttribute("recordNow", recordService.findByDateTime(LocalDateTime.now()));
+        recordsHourly.forEach(e -> System.out.println(e.getDate()));
         return "mainPage";
     }
 
@@ -46,7 +56,7 @@ public class RecordController {
                 unit = ChronoUnit.MONTHS;
                 break;
             default:
-                return "404Page";
+                throw new NotFoundException("Given time stamp: '" + timeStamp + "' is not available.");
         }
 
         model.addAttribute("records", recordService.findAllBeforeDate(1L, unit));
