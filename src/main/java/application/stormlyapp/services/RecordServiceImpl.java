@@ -4,6 +4,7 @@ import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.model.Record;
 import application.stormlyapp.repositories.RecordRepository;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -128,4 +129,41 @@ public class RecordServiceImpl implements RecordService {
         }
         return records;
     }
+    
+//    public Record calculateAverageOfRecords(List<Record> records) {
+//    	double sumTemp = 0;
+//    	double sumPressure = 0;
+//    	double sumHumidity = 0;
+//    	double sumExposure = 0;
+//
+//    	for(Record record : records) {
+//    		sumTemp += record.getTemperature();
+//    		sumPressure += record.getPressure();
+//    		sumHumidity += record.getHumidity();
+//    		sumExposure += record.getExposure();
+//    	}
+//    	
+//    	int number = records.size();
+//    	Record avgRecord = Record.builder().temperature(sumTemp/number).pressure(sumPressure/number).humidity(sumHumidity/number).exposure(sumExposure/number).build();
+//    	return avgRecord;
+//    }
+//    
+//    public List<Record> findByDateDaily(LocalDateTime dateTime) {
+//    	List<Record> recordsDaily = new LinkedList<>(); 
+//    	List<Record> recordsWeekly = new LinkedList<>(); 
+//
+//    	int currentDay = 1;
+//    	for(Record record : findAll()) {
+//    		if(dateTime.isBefore(record.getDate().minusDays(5))) {
+//    			if(dateTime.isAfter(record.getDate().minusDays(currentDay))) {
+//    				recordsDaily.add(record);
+//    			} else {
+//    				recordsWeekly.add(calculateAverageOfRecords(recordsWeekly));
+//    				recordsDaily.clear();
+//    				currentDay++;
+//    			}
+//    		}
+//    	}
+//    	
+//    }
 }
