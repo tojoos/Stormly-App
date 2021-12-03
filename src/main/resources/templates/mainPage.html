@@ -55,9 +55,9 @@
                                             <div class="carousel-item active">
                                                 <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
                                                     <div class="flex-column" th:each="record : ${recordsHourly}">
-                                                        <p class="small" th:text="${record.temperature + '°C'}"><strong>2°C</strong></p>
+                                                        <p class="small" th:text="${record.temperature + '°C'}" style="font-weight: bold">2°C</p>
                                                         <i class="mdi mdi-weather-snowy-heavy" style="font-size: 30px"></i>
-                                                        <p class="mb-0" th:text="${record.getDate().getHour()}"><strong>12:00</strong></p>
+                                                        <p class="mb-0" th:text="${record.getDate().getHour()%12}"><strong>12:00</strong></p>
                                                         <p class="mb-0 text-muted" th:text="${record.getDate().getHour() <= 12 ? 'AM' : 'PM'}" style="font-size: .65rem;">PM</p>
                                                     </div>
                                                 </div>
@@ -70,42 +70,19 @@
 
                             <div class="card" style="border-radius: 25px;">
                                 <div class="card-body p-4">
-
                                     <div id="demo3" class="carousel slide" data-ride="carousel">
-                                        <!-- Indicators -->
                                         <ul class="carousel-indicators mb-0">
                                             <li data-target="#demo3" data-slide-to="0"></li>
                                             <li data-target="#demo3" data-slide-to="1"></li>
                                             <li data-target="#demo3" data-slide-to="2" class="active"></li>
                                         </ul>
-                                        <!-- Carousel inner -->
                                         <div class="carousel-inner">
                                             <div class="carousel-item active">
                                                 <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>5°C</strong></p>
-                                                        <i class="mdi mdi-weather-cloudy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>Mon</strong></p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>7°C</strong></p>
-                                                        <i class="mdi mdi-weather-cloudy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>Tue</strong></p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>7°C</strong></p>
-                                                        <i class="mdi mdi-weather-pouring" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>Wed</strong></p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>4°C</strong></p>
-                                                        <i class="mdi mdi-weather-snowy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>Thu</strong></p>
-                                                    </div>
-                                                    <div class="flex-column">
-                                                        <p class="small"><strong>3°C</strong></p>
-                                                        <i class="mdi mdi-weather-snowy" style="font-size: 30px"></i>
-                                                        <p class="mb-0"><strong>Fri</strong></p>
+                                                    <div class="flex-column" th:each="record : ${recordsDaily}">
+                                                        <p class="small" th:text="${record.temperature + '°C'}" style="font-weight: bold">2°C</p>
+                                                        <i class="mdi mdi-weather-snowy-heavy" style="font-size: 30px"></i>
+                                                        <p class="mb-0" th:text="${#strings.capitalize(#strings.toLowerCase(record.getDate().getDayOfWeek()).substring(0,3))}" style="font-weight: bold">12:00</p>
                                                     </div>
                                                 </div>
                                             </div>

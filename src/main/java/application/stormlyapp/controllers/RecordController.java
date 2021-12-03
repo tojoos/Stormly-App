@@ -25,10 +25,10 @@ public class RecordController {
     @GetMapping({"","/"})
     public String getIndexPage(Model model) {
         List<Record> recordsHourly = recordService.findByDateHourly(LocalDateTime.now());
-        List<Record> recordsDaily = new LinkedList<>();
+        List<Record> recordsDaily = recordService.findByDateDaily(LocalDateTime.now());
         model.addAttribute("recordsHourly", recordsHourly);
+        model.addAttribute("recordsDaily", recordsDaily);
         model.addAttribute("recordNow", recordService.findByDateTime(LocalDateTime.now()));
-        recordsHourly.forEach(e -> System.out.println(e.getDate()));
         return "mainPage";
     }
 

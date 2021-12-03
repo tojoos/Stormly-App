@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.*;
@@ -125,45 +126,52 @@ public class RecordServiceImpl implements RecordService {
     public List<Record> findByDateHourly(LocalDateTime dateTime) {
         List<Record> records = new LinkedList<>();
         for(int i=0; i<5; i++) {
-            records.add(findByDateTime(dateTime.minusHours(i)));
+            records.add(findByDateTime(dateTime.minusHours(4-i)));
         }
         return records;
     }
-    
-//    public Record calculateAverageOfRecords(List<Record> records) {
-//    	double sumTemp = 0;
-//    	double sumPressure = 0;
-//    	double sumHumidity = 0;
-//    	double sumExposure = 0;
-//
-//    	for(Record record : records) {
-//    		sumTemp += record.getTemperature();
-//    		sumPressure += record.getPressure();
-//    		sumHumidity += record.getHumidity();
-//    		sumExposure += record.getExposure();
-//    	}
-//    	
-//    	int number = records.size();
-//    	Record avgRecord = Record.builder().temperature(sumTemp/number).pressure(sumPressure/number).humidity(sumHumidity/number).exposure(sumExposure/number).build();
-//    	return avgRecord;
-//    }
-//    
-//    public List<Record> findByDateDaily(LocalDateTime dateTime) {
-//    	List<Record> recordsDaily = new LinkedList<>(); 
-//    	List<Record> recordsWeekly = new LinkedList<>(); 
-//
-//    	int currentDay = 1;
-//    	for(Record record : findAll()) {
-//    		if(dateTime.isBefore(record.getDate().minusDays(5))) {
-//    			if(dateTime.isAfter(record.getDate().minusDays(currentDay))) {
-//    				recordsDaily.add(record);
-//    			} else {
-//    				recordsWeekly.add(calculateAverageOfRecords(recordsWeekly));
-//    				recordsDaily.clear();
-//    				currentDay++;
-//    			}
-//    		}
-//    	}
-//    	
-//    }
+
+    @Override
+    public Record calculateAverageOfRecords(List<Record> records) {
+    	double sumTemp = 0;
+    	double sumPressure = 0;
+    	double sumHumidity = 0;
+    	double sumExposure = 0;
+
+    	for(Record record : records) {
+    		sumTemp += record.getTemperature();
+    		sumPressure += record.getPressure();
+    		sumHumidity += record.getHumidity();
+    		sumExposure += record.getExposure();
+    	}
+
+    	int number = records.size();
+        return Record.builder().date(records.get(number/2).getDate()).temperature(sumTemp/number).pressure(sumPressure/number).humidity(sumHumidity/number).exposure(sumExposure/number).build();
+    }
+
+    @Override
+    public List<Record> findByDateDaily(LocalDateTime dateTime) {
+    	List<Record> recordsHourly = new LinkedList<>();
+    	List<Record> recordsDaily = new LinkedList<>();
+
+        Set<Record> sortedRecords = findAll().stream()
+                .sorted(Comparator.comparing(Record::getDate).reversed())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+    	int currentDay = 1;
+    	for(Record record : sortedRecords) {
+    		if(record.getDate().isAfter(dateTime.minusDays(5))) {
+    			if(record.getDate().isAfter(dateTime.minusDays(currentDay))) {
+    				recordsHourly.add(record);
+    			} else {
+    				recordsDaily.add(calculateAverageOfRecords(recordsHourly));
+    				recordsHourly.clear();
+    				currentDay++;
+    			}
+    		}
+    	}
+        recordsDaily.add(calculateAverageOfRecords(recordsHourly));
+        recordsDaily.sort(Comparator.comparing(Record::getDate));
+        return recordsDaily;
+    }
 }
