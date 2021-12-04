@@ -125,11 +125,31 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public List<Record> findByDateHourly(LocalDateTime dateTime) {
-        List<Record> records = new LinkedList<>();
-        for(int i=0; i<5; i++) {
-            records.add(findByDateTime(dateTime.minusHours(4-i)));
+        List<Record> recordsToAvg = new LinkedList<>();
+        List<Record> recordsHourly = new LinkedList<>();
+
+        Set<Record> sortedRecords = findAll().stream()
+                .sorted(Comparator.comparing(Record::getDate).reversed())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        int currentHour = 1;
+        for(Record record : sortedRecords) {
+            if(record.getDate().isAfter(dateTime.minusHours(5))) {
+                if(record.getDate().isAfter(dateTime.minusHours(currentHour))) {
+                    recordsToAvg.add(record);
+                } else  {
+                    if(recordsToAvg.size()>0)
+                        recordsHourly.add(calculateAverageOfRecords(recordsToAvg));
+                    recordsToAvg.clear();
+                    recordsToAvg.add(record);
+                    currentHour++;
+                }
+            }
         }
-        return records;
+        if(recordsToAvg.size()>0)
+            recordsHourly.add(calculateAverageOfRecords(recordsToAvg));
+        recordsHourly.sort(Comparator.comparing(Record::getDate));
+        return recordsHourly;
     }
 
     @Override
@@ -152,26 +172,29 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public List<Record> findByDateDaily(LocalDateTime dateTime) {
-    	List<Record> recordsHourly = new LinkedList<>();
-    	List<Record> recordsDaily = new LinkedList<>();
+        List<Record> recordsHourly = new LinkedList<>();
+        List<Record> recordsDaily = new LinkedList<>();
 
         Set<Record> sortedRecords = findAll().stream()
                 .sorted(Comparator.comparing(Record::getDate).reversed())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-    	int currentDay = 1;
-    	for(Record record : sortedRecords) {
-    		if(record.getDate().isAfter(dateTime.minusDays(5))) {
-    			if(record.getDate().isAfter(dateTime.minusDays(currentDay))) {
-    				recordsHourly.add(record);
-    			} else {
-    				recordsDaily.add(calculateAverageOfRecords(recordsHourly));
-    				recordsHourly.clear();
-    				currentDay++;
-    			}
-    		}
-    	}
-        recordsDaily.add(calculateAverageOfRecords(recordsHourly));
+        int currentHour = 1;
+        for(Record record : sortedRecords) {
+            if(record.getDate().isAfter(dateTime.minusDays(5))) {
+                if(record.getDate().isAfter(dateTime.minusDays(currentHour))) {
+                    recordsHourly.add(record);
+                } else  {
+                    if(recordsHourly.size()>0)
+                        recordsDaily.add(calculateAverageOfRecords(recordsHourly));
+                    recordsHourly.clear();
+                    recordsHourly.add(record);
+                    currentHour++;
+                }
+            }
+        }
+        if(recordsHourly.size()>0)
+            recordsDaily.add(calculateAverageOfRecords(recordsHourly));
         recordsDaily.sort(Comparator.comparing(Record::getDate));
         return recordsDaily;
     }
@@ -180,4 +203,6 @@ public class RecordServiceImpl implements RecordService {
     public String getFormattedDate(LocalDateTime date) {
         return date.format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
     }
+
+
 }

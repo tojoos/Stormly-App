@@ -1,6 +1,7 @@
 package application.stormlyapp.controllers;
 
 import application.stormlyapp.exceptions.NotFoundException;
+import application.stormlyapp.model.Record;
 import application.stormlyapp.services.RecordService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -36,6 +38,11 @@ public class RecordControllerTest {
 
     @Test
     void testGetIndexPage() throws Exception {
+        when(recordService.findByDateTime(any())).thenReturn(Record.builder().build());
+        when(recordService.findByDateHourly(any())).thenReturn(List.of(Record.builder().id(1L).build(),Record.builder().id(2L).build()));
+        when(recordService.findByDateDaily(any())).thenReturn(List.of(Record.builder().id(1L).build(),Record.builder().id(2L).build()));
+        when(recordService.getFormattedDate(any())).thenReturn("test string");
+
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("mainPage"));

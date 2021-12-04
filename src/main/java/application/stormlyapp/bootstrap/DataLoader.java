@@ -44,7 +44,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         recordService.save(Record.builder().temperature(15).humidity(0.41).pressure(1022).exposure(300).date(LocalDateTime.now().minusHours(4)).build());
 
         recordService.save(Record.builder().temperature(12).humidity(0.66).pressure(999).exposure(600).date(LocalDateTime.now().minusDays(1)).build());
-        recordService.save(Record.builder().temperature(16.7).humidity(0.14).pressure(1021).exposure(600).date(LocalDateTime.now().minusHours(1).minusDays(1)).build());
+        recordService.save(Record.builder().temperature(16.7).humidity(0.13).pressure(1021).exposure(600).date(LocalDateTime.now().minusHours(1).minusDays(1)).build());
 
         recordService.save(Record.builder().temperature(18.5).humidity(0.26).pressure(1011).exposure(520).date(LocalDateTime.now().minusHours(2).minusDays(2)).build());
         recordService.save(Record.builder().temperature(17).humidity(0.32).pressure(1022).exposure(410).date(LocalDateTime.now().minusHours(3).minusDays(2)).build());
