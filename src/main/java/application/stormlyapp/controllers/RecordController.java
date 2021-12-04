@@ -29,6 +29,7 @@ public class RecordController {
         model.addAttribute("recordsHourly", recordsHourly);
         model.addAttribute("recordsDaily", recordsDaily);
         model.addAttribute("recordNow", recordService.findByDateTime(LocalDateTime.now()));
+        model.addAttribute("recordNowFormattedDate", recordService.getFormattedDate(recordService.findByDateTime(LocalDateTime.now()).getDate()));
         return "mainPage";
     }
 

@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -173,5 +174,10 @@ public class RecordServiceImpl implements RecordService {
         recordsDaily.add(calculateAverageOfRecords(recordsHourly));
         recordsDaily.sort(Comparator.comparing(Record::getDate));
         return recordsDaily;
+    }
+
+    @Override
+    public String getFormattedDate(LocalDateTime date) {
+        return date.format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
     }
 }

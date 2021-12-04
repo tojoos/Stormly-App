@@ -18,4 +18,5 @@ public interface RecordService {
     List<Record> findByDateHourly(LocalDateTime dateTime);
     Record calculateAverageOfRecords(List<Record> records);
     List<Record> findByDateDaily(LocalDateTime dateTime);
+    String getFormattedDate(LocalDateTime date);
 }

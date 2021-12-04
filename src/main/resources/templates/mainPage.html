@@ -112,19 +112,19 @@
                             <div class="card-body p-4">
                                 <h2 class="d-flex flex-column card-title mt-2" style="font-size: 24px">
                                     <div>
-                                        <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" style="padding-right: 65px; font-size: 16px"> 9:32</span>
+                                        <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" style="padding-right: 75px; font-size: 16px"> 9:32</span>
                                         <i class="mdi mdi-weather-sunset-down"></i><span class="align-middle" style="font-size: 16px"> 16:19</span>
                                     </div>
                                     <div>
-                                        <i class="mdi mdi-water"></i><span class="align-middle" style="padding-right: 67px; font-size: 16px"> 24%</span>
-                                        <i class="mdi mdi-thermometer"></i><span class="align-middle" style="font-size: 16px"> 3°C</span>
+                                        <i class="mdi mdi-water"></i><span class="align-middle" th:text="${recordNow.getHumidity()*100 + '%'}" style="padding-right: 67px; font-size: 16px"> 24%</span>
+                                        <i class="mdi mdi-thermometer"></i><span class="align-middle" th:text="${recordNow.getTemperature() + '°C'}" style="font-size: 16px"> 3°C</span>
                                     </div>
                                     <div>
-                                        <i class="mdi mdi-gauge"></i><span class="align-middle" style="padding-right: 35px; font-size: 16px"> 1012hPa</span>
-                                        <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" style="font-size: 16px"> 20%</span>
+                                        <i class="mdi mdi-gauge"></i><span class="align-middle" th:text="${' ' + recordNow.getPressure() + 'hPa'}" style="padding-right: 30px; font-size: 16px"> 1012hPa</span>
+                                        <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" th:text="${' ' + recordNow.getExposure()/10 + '%'}" style="font-size: 16px"> 20%</span>
                                     </div>
                                 </h2>
-                                <span class="d-flex justify-content-center" style="font-size: 10px">Last update: 19:15 30/11/2021</span>
+                                <span class="d-flex justify-content-center" th:text="${'Last update: ' + recordNowFormattedDate}" style="font-size: 10px">Last update: 19:15 30/11/2021</span>
                             </div>
                         </div>
                     </div>
