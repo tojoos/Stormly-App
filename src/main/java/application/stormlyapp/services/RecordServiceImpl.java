@@ -4,12 +4,15 @@ import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.model.Record;
 import application.stormlyapp.repositories.RecordRepository;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -122,10 +125,84 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public List<Record> findByDateHourly(LocalDateTime dateTime) {
-        List<Record> records = new LinkedList<>();
-        for(int i=0; i<5; i++) {
-            records.add(findByDateTime(dateTime.minusHours(i)));
+        List<Record> recordsToAvg = new LinkedList<>();
+        List<Record> recordsHourly = new LinkedList<>();
+
+        Set<Record> sortedRecords = findAll().stream()
+                .sorted(Comparator.comparing(Record::getDate).reversed())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        int currentHour = 1;
+        for(Record record : sortedRecords) {
+            if(record.getDate().isAfter(dateTime.minusHours(5))) {
+                if(record.getDate().isAfter(dateTime.minusHours(currentHour))) {
+                    recordsToAvg.add(record);
+                } else  {
+                    if(recordsToAvg.size()>0)
+                        recordsHourly.add(calculateAverageOfRecords(recordsToAvg));
+                    recordsToAvg.clear();
+                    recordsToAvg.add(record);
+                    currentHour++;
+                }
+            }
         }
-        return records;
+        if(recordsToAvg.size()>0)
+            recordsHourly.add(calculateAverageOfRecords(recordsToAvg));
+        recordsHourly.sort(Comparator.comparing(Record::getDate));
+        return recordsHourly;
     }
+
+    @Override
+    public Record calculateAverageOfRecords(List<Record> records) {
+    	double sumTemp = 0;
+    	double sumPressure = 0;
+    	double sumHumidity = 0;
+    	double sumExposure = 0;
+
+    	for(Record record : records) {
+    		sumTemp += record.getTemperature();
+    		sumPressure += record.getPressure();
+    		sumHumidity += record.getHumidity();
+    		sumExposure += record.getExposure();
+    	}
+
+    	int number = records.size();
+        return Record.builder().date(records.get(number/2).getDate()).temperature(sumTemp/number).pressure(sumPressure/number).humidity(sumHumidity/number).exposure(sumExposure/number).build();
+    }
+
+    @Override
+    public List<Record> findByDateDaily(LocalDateTime dateTime) {
+        List<Record> recordsHourly = new LinkedList<>();
+        List<Record> recordsDaily = new LinkedList<>();
+
+        Set<Record> sortedRecords = findAll().stream()
+                .sorted(Comparator.comparing(Record::getDate).reversed())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        int currentHour = 1;
+        for(Record record : sortedRecords) {
+            if(record.getDate().isAfter(dateTime.minusDays(5))) {
+                if(record.getDate().isAfter(dateTime.minusDays(currentHour))) {
+                    recordsHourly.add(record);
+                } else  {
+                    if(recordsHourly.size()>0)
+                        recordsDaily.add(calculateAverageOfRecords(recordsHourly));
+                    recordsHourly.clear();
+                    recordsHourly.add(record);
+                    currentHour++;
+                }
+            }
+        }
+        if(recordsHourly.size()>0)
+            recordsDaily.add(calculateAverageOfRecords(recordsHourly));
+        recordsDaily.sort(Comparator.comparing(Record::getDate));
+        return recordsDaily;
+    }
+
+    @Override
+    public String getFormattedDate(LocalDateTime date) {
+        return date.format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
+    }
+
+
 }

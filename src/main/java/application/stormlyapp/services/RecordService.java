@@ -16,5 +16,7 @@ public interface RecordService {
     Set<Record> findAllBeforeDate(Long amount, TemporalUnit units);
     Record findByDateTime(LocalDateTime dateTime);
     List<Record> findByDateHourly(LocalDateTime dateTime);
-
+    Record calculateAverageOfRecords(List<Record> records);
+    List<Record> findByDateDaily(LocalDateTime dateTime);
+    String getFormattedDate(LocalDateTime date);
 }
