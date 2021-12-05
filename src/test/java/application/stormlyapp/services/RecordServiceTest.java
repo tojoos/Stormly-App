@@ -81,9 +81,9 @@ public class RecordServiceTest {
     void testFindAll() {
         //given
         Set<Record> recordList = new HashSet<>();
-        recordList.add(Record.builder().id(1L).build());
-        recordList.add(Record.builder().id(2L).build());
-        recordList.add(Record.builder().id(3L).build());
+        recordList.add(Record.builder().id(1L).date(LocalDateTime.now()).build());
+        recordList.add(Record.builder().id(2L).date(LocalDateTime.now()).build());
+        recordList.add(Record.builder().id(3L).date(LocalDateTime.now()).build());
 
         //when
         when(recordRepository.findAll()).thenReturn(recordList);
@@ -134,9 +134,9 @@ public class RecordServiceTest {
     @Test
     void testDeleteById() {
         HashSet<Record> records = new HashSet<>();
-        records.add(Record.builder().id(1L).build());
-        records.add(Record.builder().id(2L).build());
-        records.add(Record.builder().id(3L).build());
+        records.add(Record.builder().id(1L).date(LocalDateTime.now()).build());
+        records.add(Record.builder().id(2L).date(LocalDateTime.now()).build());
+        records.add(Record.builder().id(3L).date(LocalDateTime.now()).build());
 
         //when
         when(recordRepository.findAll()).thenReturn(records);

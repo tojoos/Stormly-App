@@ -18,10 +18,10 @@
                 <tr th:each="record : ${records}">
                     <td th:text="${record.id}"></td>
                     <td th:text="${record.getFormattedDate()}"></td>
-                    <td th:text="${record.temperature + ' °C'}"></td>
-                    <td th:text="${record.humidity*100 + ' %'}"></td>
-                    <td th:text="${record.pressure + ' hPa'}"></td>
-                    <td th:text="${record.exposure + ' %'}"></td>
+                    <td th:text="${#numbers.formatDecimal(record.temperature,1,1, 'POINT') + '°C'}"></td>
+                    <td th:text="${#numbers.formatDecimal(record.humidity*100,1,1, 'POINT') + '%'}"></td>
+                    <td th:text="${#numbers.formatDecimal(record.pressure,1,1, 'POINT') + ' hPa'}"></td>
+                    <td th:text="${#numbers.formatDecimal(record.exposure*100,1,1, 'POINT') + '%'}"></td>
                 </tr>
                 <tr th:if="${#lists.size(records)} == 0">
                     <td colspan="6" style="text-align: center; font-size: 18px">No data found</td>

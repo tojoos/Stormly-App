@@ -47,9 +47,13 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Set<Record> findAll() {
-        HashSet<Record> records = new HashSet<>();
+        HashSet<Record> records = new LinkedHashSet<>();
         recordRepository.findAll().forEach(records::add);
-        return records;
+        Set<Record> sortedRecords = records.stream()
+                .sorted(Comparator.comparing(Record::getDate).reversed())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        return sortedRecords;
     }
 
     @Override
@@ -71,7 +75,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Set<Record> findAllBeforeDate(Long amount, TemporalUnit units) {
-        Set<Record> matchingRecords = new HashSet<>();
+        Set<Record> matchingRecords = new LinkedHashSet<>();
         for(Record record : this.findAll()) {
             if(record.getDate().isAfter(LocalDateTime.now().minus(amount, units))) {
                 matchingRecords.add(record);
@@ -116,11 +120,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Record findByDateTime(LocalDateTime dateTime) {
-        Set<Record> records = findAll();
-        Set<Record> sortedRecords = records.stream()
-                .sorted(Comparator.comparing(Record::getDate).reversed())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        for(Record record : sortedRecords) {
+        for(Record record : findAll()) {
             if(dateTime.isAfter(record.getDate()) || dateTime.isEqual(record.getDate())) {
                 return record;
             }
@@ -133,12 +133,8 @@ public class RecordServiceImpl implements RecordService {
         List<Record> recordsToAvg = new LinkedList<>();
         List<Record> recordsHourly = new LinkedList<>();
 
-        Set<Record> sortedRecords = findAll().stream()
-                .sorted(Comparator.comparing(Record::getDate).reversed())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
         int currentHour = 1;
-        for(Record record : sortedRecords) {
+        for(Record record : findAll()) {
             if(record.getDate().isAfter(dateTime.minusHours(5))) {
                 if(record.getDate().isAfter(dateTime.minusHours(currentHour))) {
                     recordsToAvg.add(record);
@@ -180,12 +176,8 @@ public class RecordServiceImpl implements RecordService {
         List<Record> recordsHourly = new LinkedList<>();
         List<Record> recordsDaily = new LinkedList<>();
 
-        Set<Record> sortedRecords = findAll().stream()
-                .sorted(Comparator.comparing(Record::getDate).reversed())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
         int currentHour = 1;
-        for(Record record : sortedRecords) {
+        for(Record record : findAll()) {
             if(record.getDate().isAfter(dateTime.minusDays(5))) {
                 if(record.getDate().isAfter(dateTime.minusDays(currentHour))) {
                     recordsHourly.add(record);
