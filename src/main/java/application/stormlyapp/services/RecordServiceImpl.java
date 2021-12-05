@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalUnit;
@@ -24,6 +23,12 @@ public class RecordServiceImpl implements RecordService {
     private final String FILE_URL = "src/main/resources/data.txt";
 
     private final RecordRepository recordRepository;
+
+    private final double EXPOSURE_LIMIT_AT_NIGHT_CLOUDY = 0.10;
+    private final double EXPOSURE_LIMIT_AT_DAY_CLOUDY = 0.30;
+    private final double EXPOSURE_LIMIT_AT_DAY_PARTLY_CLOUDY = 0.50;
+    private final double HUMIDITY_LIMIT_RAINY = 0.70;
+    private final double TEMPERATURE_LIMIT_SNOWY = 3.0;
 
     public RecordServiceImpl(RecordRepository recordRepository) {
         this.recordRepository = recordRepository;
@@ -42,9 +47,13 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Set<Record> findAll() {
-        HashSet<Record> records = new HashSet<>();
+        HashSet<Record> records = new LinkedHashSet<>();
         recordRepository.findAll().forEach(records::add);
-        return records;
+        Set<Record> sortedRecords = records.stream()
+                .sorted(Comparator.comparing(Record::getDate).reversed())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        return sortedRecords;
     }
 
     @Override
@@ -66,7 +75,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Set<Record> findAllBeforeDate(Long amount, TemporalUnit units) {
-        Set<Record> matchingRecords = new HashSet<>();
+        Set<Record> matchingRecords = new LinkedHashSet<>();
         for(Record record : this.findAll()) {
             if(record.getDate().isAfter(LocalDateTime.now().minus(amount, units))) {
                 matchingRecords.add(record);
@@ -111,11 +120,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Record findByDateTime(LocalDateTime dateTime) {
-        Set<Record> records = findAll();
-        Set<Record> sortedRecords = records.stream()
-                .sorted(Comparator.comparing(Record::getDate).reversed())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        for(Record record : sortedRecords) {
+        for(Record record : findAll()) {
             if(dateTime.isAfter(record.getDate()) || dateTime.isEqual(record.getDate())) {
                 return record;
             }
@@ -128,12 +133,8 @@ public class RecordServiceImpl implements RecordService {
         List<Record> recordsToAvg = new LinkedList<>();
         List<Record> recordsHourly = new LinkedList<>();
 
-        Set<Record> sortedRecords = findAll().stream()
-                .sorted(Comparator.comparing(Record::getDate).reversed())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
         int currentHour = 1;
-        for(Record record : sortedRecords) {
+        for(Record record : findAll()) {
             if(record.getDate().isAfter(dateTime.minusHours(5))) {
                 if(record.getDate().isAfter(dateTime.minusHours(currentHour))) {
                     recordsToAvg.add(record);
@@ -175,12 +176,8 @@ public class RecordServiceImpl implements RecordService {
         List<Record> recordsHourly = new LinkedList<>();
         List<Record> recordsDaily = new LinkedList<>();
 
-        Set<Record> sortedRecords = findAll().stream()
-                .sorted(Comparator.comparing(Record::getDate).reversed())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
         int currentHour = 1;
-        for(Record record : sortedRecords) {
+        for(Record record : findAll()) {
             if(record.getDate().isAfter(dateTime.minusDays(5))) {
                 if(record.getDate().isAfter(dateTime.minusDays(currentHour))) {
                     recordsHourly.add(record);
@@ -204,5 +201,40 @@ public class RecordServiceImpl implements RecordService {
         return date.format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
     }
 
-
+    @Override
+    public String getIconBasedOnRecord(Record record) {
+        if(record.getDate().getHour() <= 5 && record.getDate().getHour() >= 22 ) {
+            if(record.getExposure() < EXPOSURE_LIMIT_AT_NIGHT_CLOUDY) {
+                return "mdi mdi-weather-night-partly-cloudy";
+            } else {
+                return "mdi mdi-weather-night";
+            }
+        } else {
+            if(record.getExposure() < EXPOSURE_LIMIT_AT_DAY_PARTLY_CLOUDY) {
+                if(record.getHumidity() > HUMIDITY_LIMIT_RAINY) {
+                    if(record.getTemperature() < TEMPERATURE_LIMIT_SNOWY) {
+                        return "mdi mdi-weather-snowy-heavy";
+                    } else {
+                        return "mdi mdi-weather-rainy";
+                    }
+                } else {
+                    if(record.getExposure() < EXPOSURE_LIMIT_AT_DAY_CLOUDY) {
+                        return "mdi mdi-weather-cloudy";
+                    } else {
+                        return "mdi mdi-weather-partly-cloudy";
+                    }
+                }
+            } else {
+                if(record.getHumidity() > HUMIDITY_LIMIT_RAINY) {
+                    if(record.getTemperature() < TEMPERATURE_LIMIT_SNOWY) {
+                        return "mdi mdi-weather-snowy-heavy";
+                    } else {
+                        return "mdi mdi-weather-rainy";
+                    }
+                } else {
+                    return "mdi mdi-weather-sunny";
+                }
+            }
+        }
+    }
 }

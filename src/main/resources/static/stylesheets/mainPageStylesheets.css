@@ -2,15 +2,14 @@ body {
     background-color: #C1CFEA;
 }
 
-.gradient-custom {
-    /* fallback for old browsers */
-    background: #ffffff;
+.gradient-custom-cold {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(155, 215, 247) 0%, rgba(231,246,255,1) 75%);
+}
 
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, rgba(255, 255, 255, 1), rgb(210, 238, 255));
-
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgb(210, 230, 255))
+.gradient-custom-warm {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(247, 222, 169, 0.71) 0%, rgba(249,255,231,1) 75%);
 }
 
 .carousel-indicators li {

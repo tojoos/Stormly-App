@@ -30,6 +30,12 @@ public class RecordServiceTest {
     List<Record> records;
     Record record1, record2, record3, record4, record5, record6;
 
+    private final double EXPOSURE_LIMIT_AT_NIGHT_CLOUDY = 0.10;
+    private final double EXPOSURE_LIMIT_AT_DAY_CLOUDY = 0.30;
+    private final double EXPOSURE_LIMIT_AT_DAY_PARTLY_CLOUDY = 0.50;
+    private final double HUMIDITY_LIMIT_RAINY = 0.70;
+    private final double TEMPERATURE_LIMIT_SNOWY = 3.0;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -75,9 +81,9 @@ public class RecordServiceTest {
     void testFindAll() {
         //given
         Set<Record> recordList = new HashSet<>();
-        recordList.add(Record.builder().id(1L).build());
-        recordList.add(Record.builder().id(2L).build());
-        recordList.add(Record.builder().id(3L).build());
+        recordList.add(Record.builder().id(1L).date(LocalDateTime.now()).build());
+        recordList.add(Record.builder().id(2L).date(LocalDateTime.now()).build());
+        recordList.add(Record.builder().id(3L).date(LocalDateTime.now()).build());
 
         //when
         when(recordRepository.findAll()).thenReturn(recordList);
@@ -128,9 +134,9 @@ public class RecordServiceTest {
     @Test
     void testDeleteById() {
         HashSet<Record> records = new HashSet<>();
-        records.add(Record.builder().id(1L).build());
-        records.add(Record.builder().id(2L).build());
-        records.add(Record.builder().id(3L).build());
+        records.add(Record.builder().id(1L).date(LocalDateTime.now()).build());
+        records.add(Record.builder().id(2L).date(LocalDateTime.now()).build());
+        records.add(Record.builder().id(3L).date(LocalDateTime.now()).build());
 
         //when
         when(recordRepository.findAll()).thenReturn(records);
@@ -295,4 +301,39 @@ public class RecordServiceTest {
         assertEquals("09:30 10/10/2020", formattedDate);
     }
 
+    @Test
+    void testGetIconBasedOnRecordRainy() {
+        //given
+        Record record = Record.builder().date(LocalDateTime.of(2021,6,10,12,0,0)).humidity(HUMIDITY_LIMIT_RAINY + 0.01).exposure(EXPOSURE_LIMIT_AT_DAY_CLOUDY + 0.01).temperature(TEMPERATURE_LIMIT_SNOWY + 0.1).build();
+
+        //when
+        String icon = recordService.getIconBasedOnRecord(record);
+
+        //then
+        assertEquals("mdi mdi-weather-rainy", icon);
+    }
+
+    @Test
+    void testGetIconBasedOnRecordSunny() {
+        //given
+        Record record = Record.builder().date(LocalDateTime.of(2021,6,10,12,0,0)).humidity(HUMIDITY_LIMIT_RAINY - 0.01).exposure(EXPOSURE_LIMIT_AT_DAY_PARTLY_CLOUDY + 0.01).temperature(TEMPERATURE_LIMIT_SNOWY + 0.1).build();
+
+        //when
+        String icon = recordService.getIconBasedOnRecord(record);
+
+        //then
+        assertEquals("mdi mdi-weather-sunny", icon);
+    }
+
+    @Test
+    void testGetIconBasedOnRecordSnowy() {
+        //given
+        Record record = Record.builder().date(LocalDateTime.of(2021,6,10,12,0,0)).humidity(HUMIDITY_LIMIT_RAINY + 0.01).exposure(EXPOSURE_LIMIT_AT_DAY_PARTLY_CLOUDY - 0.01).temperature(TEMPERATURE_LIMIT_SNOWY - 0.1).build();
+
+        //when
+        String icon = recordService.getIconBasedOnRecord(record);
+
+        //then
+        assertEquals("mdi mdi-weather-snowy-heavy", icon);
+    }
 }

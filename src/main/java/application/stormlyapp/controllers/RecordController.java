@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class RecordController {
@@ -25,6 +26,7 @@ public class RecordController {
     public String getIndexPage(Model model) {
         List<Record> recordsHourly = recordService.findByDateHourly(LocalDateTime.now());
         List<Record> recordsDaily = recordService.findByDateDaily(LocalDateTime.now());
+        model.addAttribute("recordService", recordService);
         model.addAttribute("recordsHourly", recordsHourly);
         model.addAttribute("recordsDaily", recordsDaily);
         model.addAttribute("recordNow", recordService.findByDateTime(LocalDateTime.now()));

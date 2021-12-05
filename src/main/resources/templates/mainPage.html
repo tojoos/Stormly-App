@@ -14,7 +14,7 @@
                     <div class="row d-flex justify-content-center align-items-center h-100" style="color: #282828;">
                         <div class="col-md-10">
 
-                            <div class="card mb-4 gradient-custom" style="border-radius: 25px;">
+                            <div class="card mb-4" th:classappend="${recordNow.temperature > 10 ? 'gradient-custom-warm' : 'gradient-custom-cold'}" style="border-radius: 25px">
                                 <div class="card-body p-4">
 
                                     <div id="demo1" class="carousel slide" data-ride="carousel">
@@ -32,7 +32,7 @@
                                                         <p class="text-muted mb-0">Gliwice, Poland</p>
                                                     </div>
                                                     <div>
-                                                        <i class="mdi mdi-weather-snowy-heavy" style="font-size: 80px"></i>
+                                                        <i th:class="${recordService.getIconBasedOnRecord(recordNow)}" style="font-size: 80px"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -56,7 +56,7 @@
                                                 <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
                                                     <div class="flex-column" th:each="record : ${recordsHourly}">
                                                         <p class="small" th:text="${#numbers.formatDecimal(record.temperature,1,1, 'POINT') + '°C'}" style="font-weight: bold">2°C</p>
-                                                        <i class="mdi mdi-weather-snowy-heavy" style="font-size: 30px"></i>
+                                                        <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
                                                         <p th:if="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="'12'"><strong>12:00</strong></p>
                                                         <p th:unless="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="${record.getDate().getHour()%12}"><strong>12:00</strong></p>
                                                         <p class="mb-0 text-muted" th:text="${record.getDate().getHour() <= 12 ? 'AM' : 'PM'}" style="font-size: .65rem;">PM</p>
@@ -82,7 +82,7 @@
                                                 <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
                                                     <div class="flex-column" th:each="record : ${recordsDaily}">
                                                         <p class="small" th:text="${#numbers.formatDecimal(record.temperature,1,1, 'POINT') + '°C'}" style="font-weight: bold">2°C</p>
-                                                        <i class="mdi mdi-weather-snowy-heavy" style="font-size: 30px"></i>
+                                                        <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
                                                         <p class="mb-0" th:text="${#strings.capitalize(#strings.toLowerCase(record.getDate().getDayOfWeek()).substring(0,3))}" style="font-weight: bold">12:00</p>
                                                     </div>
                                                 </div>
@@ -113,7 +113,7 @@
                             <div class="card-body p-4">
                                 <h2 class="d-flex flex-column card-title mt-2" style="font-size: 24px">
                                     <div>
-                                        <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" style="padding-right: 75px; font-size: 16px"> 9:32</span>
+                                        <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" style="padding-right: 75px; font-size: 16px"> 7:52</span>
                                         <i class="mdi mdi-weather-sunset-down"></i><span class="align-middle" style="font-size: 16px"> 16:19</span>
                                     </div>
                                     <div>
@@ -122,14 +122,13 @@
                                     </div>
                                     <div>
                                         <i class="mdi mdi-gauge"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.pressure,1,1, 'POINT') + 'hPa'}" style="padding-right: 30px; font-size: 16px"> 1012hPa</span>
-                                        <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.exposure/10,1,1, 'POINT') + '%'}" style="font-size: 16px"> 20%</span>
+                                        <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.exposure*100,1,1, 'POINT') + '%'}" style="font-size: 16px"> 20%</span>
                                     </div>
                                 </h2>
                                 <span class="d-flex justify-content-center" th:text="${'Last update: ' + recordNowFormattedDate}" style="font-size: 10px">Last update: 19:15 30/11/2021</span>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

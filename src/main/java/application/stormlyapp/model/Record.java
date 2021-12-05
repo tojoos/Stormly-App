@@ -39,8 +39,8 @@ public class Record {
     @Column(name = "pressure")
     private double pressure;
 
+    @DecimalMax("1.0")
     @DecimalMin("0.0")
-    @DecimalMax("1500")
     @Column(name = "exposure")
     private double exposure;
 
