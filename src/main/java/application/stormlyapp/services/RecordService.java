@@ -19,4 +19,5 @@ public interface RecordService {
     Record calculateAverageOfRecords(List<Record> records);
     List<Record> findByDateDaily(LocalDateTime dateTime);
     String getFormattedDate(LocalDateTime date);
+    String getIconBasedOnRecord(Record record);
 }

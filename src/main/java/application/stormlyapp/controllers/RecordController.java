@@ -25,6 +25,7 @@ public class RecordController {
     public String getIndexPage(Model model) {
         List<Record> recordsHourly = recordService.findByDateHourly(LocalDateTime.now());
         List<Record> recordsDaily = recordService.findByDateDaily(LocalDateTime.now());
+        model.addAttribute("recordService", recordService);
         model.addAttribute("recordsHourly", recordsHourly);
         model.addAttribute("recordsDaily", recordsDaily);
         model.addAttribute("recordNow", recordService.findByDateTime(LocalDateTime.now()));
