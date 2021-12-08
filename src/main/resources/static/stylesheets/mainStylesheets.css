@@ -1,3 +1,45 @@
 body {
     font-family: 'Roboto', arial, serif;
+    overflow-x: hidden;
+}
+
+.soc-media {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.soc-media li {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+footer {
+    margin-top: 3em;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.soc-media a {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: rgba(34, 34, 34, 0.85);
+}
+
+.soc-media a:focus,a:hover {
+    color: rgba(0, 0, 0, 0.16);
+}
+
+.soc-media a:active {
+    color: rgba(0, 0, 0, 0.16);
+}
+
+footer p {
+    font-size: .85em;
+    text-align: center;
+    color: #222;
 }

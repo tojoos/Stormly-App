@@ -1,0 +1,25 @@
+.soc-media a {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: rgba(34, 34, 34, 0.85);
+}
+
+.soc-media a {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: #fff;
+}
+
+.soc-media a:focus,a:hover {
+    color: rgba(35, 33, 33, 0.65);
+}
+
+.soc-media a:active {
+    color: #222;
+}
+
+footer p {
+    font-size: .85em;
+    text-align: center;
+    color: white;
+}

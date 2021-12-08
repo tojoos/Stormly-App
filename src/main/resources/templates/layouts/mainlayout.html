@@ -7,6 +7,7 @@
     <script th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/stylesheets/mainStylesheets.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
     <link rel="shortcut icon" th:href="@{/Stormly_icon.ico}" type="image/x-icon" />
 </head>
@@ -28,13 +29,8 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/archive}">Archive</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                       role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="@{/about-stormly}">About Stormly</a></li>
-                        <li><a class="dropdown-item" th:href="@{/about-stormly/equipment}">Equipment</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about-stormly}">About Stormly</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" th:href="@{/control-panel}">Control Panel</a>
@@ -47,5 +43,18 @@
     </nav>
 
     <th:block th:include="${body}"/>
+
+    <footer>
+        <div class="row">
+            <ul class="soc-media">
+                <li><a href="#" class="fa fa-twitter"></a></li>
+                <li><a href="#" class="fa fa-facebook"></a></li>
+                <li><a href="#" class="fa fa-envelope"></a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>&copy; 2021 Stomly App</p>
+        </div>
+    </footer>
 </body>
 </html>
