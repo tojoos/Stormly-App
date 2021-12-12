@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class RecordServiceImpl implements RecordService {
 
-    private final String FILE_URL = "src/main/resources/data.txt";
+    private final String FILE_URL = "D:\\StormlyApp\\StormlyData.txt";
 
     private final RecordRepository recordRepository;
 
@@ -99,8 +99,8 @@ public class RecordServiceImpl implements RecordService {
                 String[] strings = line.split(" ");
                 if(strings.length == 5) {
                     date = LocalDateTime.parse(strings[0]);
-                    temperature = Double.parseDouble(strings[1]);
-                    humidity = Double.parseDouble(strings[2]);
+                    humidity = Double.parseDouble(strings[1]);
+                    temperature = Double.parseDouble(strings[2]);
                     pressure = Double.parseDouble(strings[3]);
                     exposure = Double.parseDouble(strings[4]);
                     importedRecordsCount++;

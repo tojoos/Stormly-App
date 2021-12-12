@@ -122,7 +122,7 @@
                                         <i class="mdi mdi-thermometer"></i><span class="align-middle" th:text="${#numbers.formatDecimal(recordNow.temperature,1,1, 'POINT') + '°C'}" style="font-size: 16px"> 3°C</span>
                                     </div>
                                     <div>
-                                        <i class="mdi mdi-gauge"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.pressure,1,1, 'POINT') + 'hPa'}" style="padding-right: 30px; font-size: 16px"> 1012hPa</span>
+                                        <i class="mdi mdi-gauge"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.pressure,1,1, 'POINT') + 'hPa'}" style="padding-right: 40px; font-size: 16px"> 1012hPa</span>
                                         <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.exposure*100,1,1, 'POINT') + '%'}" style="font-size: 16px"> 20%</span>
                                     </div>
                                 </h2>

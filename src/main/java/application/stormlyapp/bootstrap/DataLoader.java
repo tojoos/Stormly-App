@@ -28,14 +28,13 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        loadData();
+        recordService.fetchData();
+        //loadData();
         addDefaultUsers();
         log.debug("Loading bootstrap data");
     }
 
     private void loadData() {
-        recordService.fetchData();
-
         //adding custom updated data for hourly
         recordService.save(Record.builder().temperature(19).humidity(0.12).pressure(1002).exposure(0.80).date(LocalDateTime.now()).build());
         recordService.save(Record.builder().temperature(18).humidity(0.18).pressure(1002).exposure(0.60).date(LocalDateTime.now().minusHours(1)).build());
