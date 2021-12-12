@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class RecordController {
@@ -63,5 +62,10 @@ public class RecordController {
 
         model.addAttribute("records", recordService.findAllBeforeDate(1L, unit));
         return "archivePage";
+    }
+
+    @GetMapping("/about-stormly")
+    public String getAboutPage() {
+        return "aboutPage";
     }
 }

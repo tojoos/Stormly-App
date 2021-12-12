@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/mainlayout :: mainLayout(~{::body})}">
+
+<body>
+    <link rel="stylesheet" th:href="@{/stylesheets/aboutPageStylesheets.css}"/>
+    <link rel="stylesheet" th:href="@{/stylesheets/whiteFooterStyle.css}"/>
+
+    <section class="sec-about">
+        <div class="row-grey">
+            <div class="row">
+                <article class="col-6">
+                    <h1>What is Stormly?</h1>
+                    <p>Stormly is an app designed to solve low-quality weather measurements in smaller areas. We decided to create a device with a connection to a personal database, which stores weather information. This data can be easily accessed by logging into the website. Each user has a unique account with weather information from his device.</p>
+                    <p>Our idea for this station includes two main segments. The first one is a hardware part that contains a microcontroller with all necessary measuring and communication equipment. The crucial sensors are temperature, pressure, and humidity. The second part is software such as connectivity with database, and web service.</p>
+                </article>
+                <article class="col-6">
+                    <h1>Our goal</h1>
+                    <p>The majority of online services don’t offer accurate forecast updates for small towns. To solve this problem we came up with the idea of an online weather service where we can store gathered data and display the most recent ones. The collected registry can be used for climate change approximation compared with different intervals.</p>
+                    <p>The weather information website’s main purpose is to collect, compute and display precise weather data via web service. Measurements conducted on a wider range require using multiple weather centers. Therefore, the only and the right approach based on budget assumption and technical complexity is microscale.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+    <section class="sec-gallery">
+        <div class="overlay">
+            <div class="row pb-4">
+                <h1>Equipment</h1>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <img th:src="@{/images/arduino-uno.png}" alt="Arduino UNO microcontroller"/>
+                </div>
+                <div class="col-6">
+                    <div class="align-vertically">
+                        <h4 style="padding: 10px 0">Arduino UNO microcontroller</h4>
+                        <p>Arduino UNO is heart of our project. It is a microcontroller board based on a removable, dual-inline-package (DIP) ATmega328 AVR microcontroller. It has 20 digital input/output pins (of which 6 can be used as PWM outputs and 6 can be used as analog inputs). </p>
+                        <p>Along with all sensors, Arduino is responsible for measuring and processing collected data. In addition to that, processed data is next send using built-in serial port.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    <img th:src="@{/images/dht11.png}" alt="DHT11 sensor" />
+                    <figcaption style="font-size: 13px">DHT11 sensor</figcaption>
+                </div>
+                <div class="col-3">
+                    <img th:src="@{/images/LDR.png}" alt="Photoresistor" />
+                    <figcaption style="font-size: 13px">Photoresistor</figcaption>
+                </div>
+                <div class="col-3">
+                    <img th:src="@{/images/lps25hb.png}" alt="LPS25HB sensor" />
+                    <figcaption style="font-size: 13px">LPS25HB sensor</figcaption>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec-about">
+        <div class="row-grey">
+            <div class="row icons">
+                <h4>Used Technologies</h4>
+                <img src="https://miro.medium.com/max/500/1*AbiX4LwtSNozoyfypcKvEg.png" alt="">
+                <img src="https://www.thymeleaf.org/doc/images/thymeleaf.png" alt="">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/512px-HTML5_logo_and_wordmark.svg.png" alt="">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/1200px-CSS3_logo_and_wordmark.svg.png" alt="">
+                <img src="https://iconape.com/wp-content/files/vp/370638/svg/bootstrap-logo-icon-png-svg.png" alt="">
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
