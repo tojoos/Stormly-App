@@ -151,7 +151,7 @@ public class RecordServiceTest {
     @Test
     void testFetchData() throws FileNotFoundException {
         //given
-        String FILE_URL = "src/main/resources/data.txt";
+        String FILE_URL = "D:\\StormlyApp\\StormlyData.txt";
         BufferedReader br = new BufferedReader(new FileReader(FILE_URL));
         long linesToRead = br.lines().count();
 
