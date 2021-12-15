@@ -49,11 +49,10 @@ public class RecordServiceImpl implements RecordService {
     public Set<Record> findAll() {
         HashSet<Record> records = new LinkedHashSet<>();
         recordRepository.findAll().forEach(records::add);
-        Set<Record> sortedRecords = records.stream()
+
+        return records.stream()
                 .sorted(Comparator.comparing(Record::getDate).reversed())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
-
-        return sortedRecords;
     }
 
     @Override
@@ -168,7 +167,7 @@ public class RecordServiceImpl implements RecordService {
     	}
 
     	int number = records.size();
-        return Record.builder().date(records.get(number/2).getDate()).temperature(sumTemp/number).pressure(sumPressure/number).humidity(sumHumidity/number).exposure(sumExposure/number).build();
+        return Record.builder().date(records.get(0).getDate()).temperature(sumTemp/number).pressure(sumPressure/number).humidity(sumHumidity/number).exposure(sumExposure/number).build();
     }
 
     @Override
@@ -176,17 +175,17 @@ public class RecordServiceImpl implements RecordService {
         List<Record> recordsHourly = new LinkedList<>();
         List<Record> recordsDaily = new LinkedList<>();
 
-        int currentHour = 1;
+        int currentDays = 1;
         for(Record record : findAll()) {
             if(record.getDate().isAfter(dateTime.minusDays(5))) {
-                if(record.getDate().isAfter(dateTime.minusDays(currentHour))) {
+                if(record.getDate().isAfter(dateTime.minusDays(currentDays))) {
                     recordsHourly.add(record);
                 } else  {
                     if(recordsHourly.size()>0)
                         recordsDaily.add(calculateAverageOfRecords(recordsHourly));
                     recordsHourly.clear();
                     recordsHourly.add(record);
-                    currentHour++;
+                    currentDays++;
                 }
             }
         }
