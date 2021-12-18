@@ -56,11 +56,23 @@
                                             <div class="carousel-item active">
                                                 <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
                                                     <div class="flex-column" th:each="record : ${recordsHourly}">
-                                                        <p class="small" th:text="${#numbers.formatDecimal(record.temperature,1,1, 'POINT') + '°C'}" style="font-weight: bold">2°C</p>
-                                                        <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
-                                                        <p th:if="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="'12'"><strong>12:00</strong></p>
-                                                        <p th:unless="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="${record.getDate().getHour()%12}"><strong>12:00</strong></p>
-                                                        <p class="mb-0 text-muted" th:text="${record.getDate().getHour() <= 12 ? 'AM' : 'PM'}" style="font-size: .65rem;">PM</p>
+                                                        <div th:if="${record.temperature == -50}">
+                                                            <p class="small" style="font-weight: bold">No data</p>
+                                                            <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
+                                                            <p th:if="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="'12'"><strong>12:00</strong></p>
+                                                            <p th:unless="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="${record.getDate().getHour()%12}"><strong>12:00</strong></p>
+                                                            <p class="mb-0 text-muted" th:text="${record.getDate().getHour() <= 12 ? 'AM' : 'PM'}" style="font-size: .65rem;">PM</p>                                                        </div>
+                                                        <div th:unless="${record.temperature == -50}">
+                                                            <p class="small" th:text="${#numbers.formatDecimal(record.temperature,1,1, 'POINT') + '°C'}" style="font-weight: bold">2°C</p>
+                                                            <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
+                                                            <p th:if="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="'12'"><strong>12:00</strong></p>
+                                                            <p th:unless="${record.getDate().getHour()%12 == 0}" class="mb-0" th:text="${record.getDate().getHour()%12}"><strong>12:00</strong></p>
+                                                            <p class="mb-0 text-muted" th:text="${record.getDate().getHour() <= 12 ? 'AM' : 'PM'}" style="font-size: .65rem;">PM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div th:if="${recordsHourly.isEmpty()}">
+                                                        <p class="small" style="font-weight: bold; font-size: 25px">No data</p>
+                                                        <i class="mdi mdi-help-circle-outline" style="font-size: 30px"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -82,9 +94,19 @@
                                             <div class="carousel-item active">
                                                 <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
                                                     <div class="flex-column" th:each="record : ${recordsDaily}">
-                                                        <p class="small" th:text="${#numbers.formatDecimal(record.temperature,1,1, 'POINT') + '°C'}" style="font-weight: bold">2°C</p>
-                                                        <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
-                                                        <p class="mb-0" th:text="${#strings.capitalize(#strings.toLowerCase(record.getDate().getDayOfWeek()).substring(0,3))}" style="font-weight: bold">12:00</p>
+                                                        <div th:if="${record.temperature == -50}">
+                                                            <p class="small" style="font-weight: bold">No data</p>
+                                                            <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
+                                                        </div>
+                                                        <div th:unless="${record.temperature == -50}">
+                                                            <p class="small" th:text="${#numbers.formatDecimal(record.temperature,1,1, 'POINT') + '°C'}" style="font-weight: bold">2°C</p>
+                                                            <i th:class="${recordService.getIconBasedOnRecord(record)}" style="font-size: 30px"></i>
+                                                        </div>
+                                                            <p class="mb-0" th:text="${#strings.capitalize(#strings.toLowerCase(record.getDate().getDayOfWeek()).substring(0,3))}" style="font-weight: bold">12:00</p>
+                                                    </div>
+                                                    <div th:if="${recordsDaily.isEmpty()}">
+                                                        <p class="small" style="font-weight: bold; font-size: 25px">No data</p>
+                                                        <i class="mdi mdi-help-circle-outline" style="font-size: 30px"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,20 +134,32 @@
                             </h2>
                         <div class="card" style="border-radius: 25px; width: 18rem">
                             <div class="card-body p-4">
-                                <h2 class="d-flex flex-column card-title mt-2" style="font-size: 24px">
-                                    <div>
-                                        <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" style="padding-right: 75px; font-size: 16px"> 7:52</span>
-                                        <i class="mdi mdi-weather-sunset-down"></i><span class="align-middle" style="font-size: 16px"> 16:19</span>
+                                <div class="d-flex flex-column card-title mt-2" style="font-size: 24px">
+                                    <div class="d-flex flex-row justify-content-sm-between" >
+                                        <div>
+                                            <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" style="font-size: 16px">7:52</span>
+                                        </div>
+                                        <div>
+                                            <i class="mdi mdi-weather-sunset-down"></i><span class="align-middle" style="font-size: 16px">16:19</span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <i class="mdi mdi-water"></i><span class="align-middle" th:text="${#numbers.formatDecimal(recordNow.humidity*100,1,1, 'POINT') + '%'}" style="padding-right: 67px; font-size: 16px"> 24%</span>
-                                        <i class="mdi mdi-thermometer"></i><span class="align-middle" th:text="${#numbers.formatDecimal(recordNow.temperature,1,1, 'POINT') + '°C'}" style="font-size: 16px"> 3°C</span>
+                                    <div class="d-flex flex-row justify-content-sm-between">
+                                        <div>
+                                            <i class="mdi mdi-gauge"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.pressure,1,1, 'POINT') + 'hPa'}" style="font-size: 16px"> 1012hPa</span>
+                                        </div>
+                                        <div>
+                                            <i class="mdi mdi-water"></i><span class="align-middle" th:text="${#numbers.formatDecimal(recordNow.humidity*100,1,1, 'POINT') + '%'}" style="font-size: 16px"> 24%</span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <i class="mdi mdi-gauge"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.pressure,1,1, 'POINT') + 'hPa'}" style="padding-right: 40px; font-size: 16px"> 1012hPa</span>
-                                        <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.exposure*100,1,1, 'POINT') + '%'}" style="font-size: 16px"> 20%</span>
+                                    <div class="d-flex flex-row justify-content-sm-between">
+                                        <div>
+                                            <i class="mdi mdi-thermometer"></i><span class="align-middle" th:text="${#numbers.formatDecimal(recordNow.temperature,1,1, 'POINT') + '°C'}" style="font-size: 16px"> 3°C</span>
+                                        </div>
+                                        <div>
+                                            <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.exposure*100,1,1, 'POINT') + '%'}" style="font-size: 16px"> 20%</span>
+                                        </div>
                                     </div>
-                                </h2>
+                                </div>
                                 <span class="d-flex justify-content-center" th:text="${'Last update: ' + recordNowFormattedDate}" style="font-size: 10px">Last update: 19:15 30/11/2021</span>
                             </div>
                         </div>

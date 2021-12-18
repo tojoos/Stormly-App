@@ -138,9 +138,13 @@ public class RecordServiceImpl implements RecordService {
                 if(record.getDate().isAfter(dateTime.minusHours(currentHour))) {
                     recordsToAvg.add(record);
                 } else  {
-                    if(recordsToAvg.size()>0)
+                    if(recordsToAvg.size()>0
+                            && recordsToAvg.get(recordsToAvg.size()-1).getDate().isAfter(dateTime.minusHours(currentHour))) {
                         recordsHourly.add(calculateAverageOfRecords(recordsToAvg));
-                    recordsToAvg.clear();
+                        recordsToAvg.clear();
+                    } else {
+                        recordsHourly.add(Record.builder().date(dateTime.minusHours(currentHour)).temperature(-50).build());
+                    }
                     recordsToAvg.add(record);
                     currentHour++;
                 }
@@ -181,9 +185,13 @@ public class RecordServiceImpl implements RecordService {
                 if(record.getDate().isAfter(dateTime.minusDays(currentDays))) {
                     recordsHourly.add(record);
                 } else  {
-                    if(recordsHourly.size()>0)
+                    if(recordsHourly.size()>0
+                            && recordsHourly.get(recordsHourly.size()-1).getDate().isAfter(dateTime.minusDays(currentDays))) {
                         recordsDaily.add(calculateAverageOfRecords(recordsHourly));
-                    recordsHourly.clear();
+                        recordsHourly.clear();
+                    } else {
+                        recordsDaily.add(Record.builder().date(dateTime.minusDays(currentDays)).temperature(-50).build());
+                    }
                     recordsHourly.add(record);
                     currentDays++;
                 }
@@ -202,6 +210,9 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public String getIconBasedOnRecord(Record record) {
+        if(record.getTemperature() == -50)
+            return "mdi mdi-help-circle-outline";
+
         if(record.getDate().getHour() <= 5 && record.getDate().getHour() >= 22 ) {
             if(record.getExposure() < EXPOSURE_LIMIT_AT_NIGHT_CLOUDY) {
                 return "mdi mdi-weather-night-partly-cloudy";
