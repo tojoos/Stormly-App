@@ -132,22 +132,22 @@
                                 <a><span class="badge min"></span></a>:
                                 <a><span class="badge sec"></span></a>
                             </h2>
-                        <div class="card" style="border-radius: 25px; width: 19rem">
-                            <div class="card-body p-4">
-                                <div class="card-title" style="font-size: 24px">
+                        <div class="card" style="border-radius: 25px; width: 20rem">
+                            <div class="card-body p-4" style="margin-left: 5%">
+                                <div class="card-title" style="font-size: 22px">
                                     <div class="row">
                                         <div class="col">
-                                            <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" style="font-size: 16px"> 7:52</span>
+                                            <i class="mdi mdi-weather-sunset-up"></i><span class="align-middle" th:text="${recordService.calculateSunrise(T(java.time.LocalDateTime).now()) != null ? ' ' + recordService.calculateSunrise(T(java.time.LocalDateTime).now()) : ' No data'}" style="font-size: 16px"> 7:52</span>
                                         </div>
-                                        <div class="col text-center">
-                                            <i class="mdi mdi-weather-sunset-down"></i><span class="align-middle" style="font-size: 16px"> 16:19</span>
+                                        <div class="col">
+                                            <i class="mdi mdi-weather-sunset-down"></i><span class="align-middle" th:text="${recordService.calculateSunset(T(java.time.LocalDateTime).now()) != null ? ' ' + recordService.calculateSunset(T(java.time.LocalDateTime).now()) : ' No data'}" style="font-size: 16px"> 16:19</span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <i class="mdi mdi-gauge"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.pressure,1,1, 'POINT') + 'hPa'}" style="font-size: 16px"> 1012hPa</span>
                                         </div>
-                                        <div class="col text-center">
+                                        <div class="col">
                                             <i class="mdi mdi-water"></i><span class="align-middle" th:text="${#numbers.formatDecimal(recordNow.humidity*100,1,1, 'POINT') + '%'}" style="font-size: 16px"> 24%</span>
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                                         <div class="col">
                                             <i class="mdi mdi-thermometer"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.temperature,1,1, 'POINT') + '°C'}" style="font-size: 16px"> 3°C</span>
                                         </div>
-                                        <div class="col text-center">
+                                        <div class="col">
                                             <i class="mdi mdi-sun-wireless-outline"></i><span class="align-middle" th:text="${' ' + #numbers.formatDecimal(recordNow.exposure*100,1,1, 'POINT') + '%'}" style="font-size: 16px"> 20%</span>
                                         </div>
                                     </div>

@@ -20,10 +20,11 @@ import java.util.stream.Collectors;
 @Service
 public class RecordServiceImpl implements RecordService {
 
-    private final String FILE_URL = "D:\\StormlyApp\\StormlyData.txt";
+    private final String FILE_URL = "src\\main\\resources\\data.txt";
 
     private final RecordRepository recordRepository;
 
+    private final double EXPOSURE_LIMIT_AT_NIGHT = 0.15;
     private final double EXPOSURE_LIMIT_AT_NIGHT_CLOUDY = 0.10;
     private final double EXPOSURE_LIMIT_AT_DAY_CLOUDY = 0.30;
     private final double EXPOSURE_LIMIT_AT_DAY_PARTLY_CLOUDY = 0.50;
@@ -246,5 +247,49 @@ public class RecordServiceImpl implements RecordService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<Record> findAllForGivenDay(LocalDateTime date) {
+        List<Record> recordsOfGivenDay = new LinkedList<>();
+        for(Record record : findAll()) {
+            if(record.getDate().getDayOfYear() == date.getDayOfYear() &&
+               record.getDate().getYear() == date.getYear()) {
+                recordsOfGivenDay.add(record);
+            }
+        }
+        if(recordsOfGivenDay.size() != 0)
+            Collections.reverse(recordsOfGivenDay);
+        return recordsOfGivenDay.size() == 0 ? null : recordsOfGivenDay;
+    }
+
+    @Override
+    public String calculateSunrise(LocalDateTime date) {
+        List<Record> records = findAllForGivenDay(date);
+        if(records != null) {
+            for(Record record : records) {
+                if (record.getDate().getHour() < 9 && record.getDate().getHour() > 4) {
+                    if (record.getExposure() >= EXPOSURE_LIMIT_AT_NIGHT) {
+                        return record.getDate().format(DateTimeFormatter.ofPattern("HH:mm"));
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String calculateSunset(LocalDateTime date) {
+        List<Record> records = findAllForGivenDay(date);
+        if(records != null) {
+            for(Record record : records) {
+                if (record.getDate().getHour() > 14 && record.getDate().getHour() < 23) {
+                    if (record.getExposure() <= EXPOSURE_LIMIT_AT_NIGHT) {
+                        return record.getDate().format(DateTimeFormatter.ofPattern("HH:mm"));
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

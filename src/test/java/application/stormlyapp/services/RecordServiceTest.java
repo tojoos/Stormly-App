@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.*;
@@ -28,6 +29,7 @@ public class RecordServiceTest {
     RecordService recordService;
 
     List<Record> records;
+
     Record record1, record2, record3, record4, record5, record6;
 
     private final double EXPOSURE_LIMIT_AT_NIGHT_CLOUDY = 0.10;
@@ -335,5 +337,45 @@ public class RecordServiceTest {
 
         //then
         assertEquals("mdi mdi-weather-snowy-heavy", icon);
+    }
+
+    @Test
+    public void calculateSunriseTest() {
+        //given
+        LocalDateTime sunriseDateTime = LocalDateTime.of(2021,12,10,7,30);
+        List<Record> records = new LinkedList<>();
+        records.add(Record.builder().temperature(19).humidity(0.12).pressure(1002).exposure(0.04).date(LocalDateTime.of(2021,12,10,1,0)).build());
+        records.add(Record.builder().temperature(18).humidity(0.18).pressure(1005).exposure(0.05).date(LocalDateTime.of(2021,12,10,2,0)).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.11).date(LocalDateTime.of(2021,12,10,5,0)).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.16).date(sunriseDateTime).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.17).date(LocalDateTime.of(2021,12,10,8,0)).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.25).date(LocalDateTime.of(2021,12,10,9,0)).build());
+
+        //when
+        when(recordRepository.findAll()).thenReturn(records);
+        String dateReturned = recordService.calculateSunrise(LocalDateTime.of(2021,12,10,0,0));
+
+        //then
+        assertEquals(sunriseDateTime.format(DateTimeFormatter.ofPattern("HH:mm")), dateReturned);
+    }
+
+    @Test
+    public void calculateSunsetTest() {
+        //given
+        LocalDateTime sunriseDateTime = LocalDateTime.of(2021,12,10,20,30);
+        List<Record> records = new LinkedList<>();
+        records.add(Record.builder().temperature(19).humidity(0.12).pressure(1002).exposure(0.88).date(LocalDateTime.of(2021,12,10,14,0)).build());
+        records.add(Record.builder().temperature(18).humidity(0.18).pressure(1005).exposure(0.60).date(LocalDateTime.of(2021,12,10,16,0)).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.30).date(LocalDateTime.of(2021,12,10,18,0)).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.14).date(sunriseDateTime).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.13).date(LocalDateTime.of(2021,12,10,22,0)).build());
+        records.add(Record.builder().temperature(19).humidity(0.38).pressure(1012).exposure(0.09).date(LocalDateTime.of(2021,12,10,23,0)).build());
+
+        //when
+        when(recordRepository.findAll()).thenReturn(records);
+        String dateReturned = recordService.calculateSunset(LocalDateTime.of(2021,12,10,0,0));
+
+        //then
+        assertEquals(sunriseDateTime.format(DateTimeFormatter.ofPattern("HH:mm")), dateReturned);
     }
 }

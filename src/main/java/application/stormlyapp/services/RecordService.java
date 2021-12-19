@@ -20,4 +20,7 @@ public interface RecordService {
     List<Record> findByDateDaily(LocalDateTime dateTime);
     String getFormattedDate(LocalDateTime date);
     String getIconBasedOnRecord(Record record);
+    String calculateSunrise(LocalDateTime date);
+    String calculateSunset(LocalDateTime date);
+    List<Record> findAllForGivenDay(LocalDateTime date);
 }

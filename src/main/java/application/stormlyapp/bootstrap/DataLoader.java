@@ -29,7 +29,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         recordService.fetchData();
-        //loadData();
+        loadData();
         addDefaultUsers();
         log.debug("Loading bootstrap data");
     }
@@ -37,6 +37,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     private void loadData() {
         //adding custom updated data for hourly
         recordService.save(Record.builder().temperature(19).humidity(0.12).pressure(1002).exposure(0.80).date(LocalDateTime.now()).build());
+        recordService.save(Record.builder().temperature(9).humidity(0.15).pressure(1011).exposure(0.11).date(LocalDateTime.now().withHour(6)).build());
+        recordService.save(Record.builder().temperature(9).humidity(0.15).pressure(1011).exposure(0.17).date(LocalDateTime.now().withHour(7)).build());
         recordService.save(Record.builder().temperature(18).humidity(0.18).pressure(1002).exposure(0.60).date(LocalDateTime.now().minusHours(1)).build());
         recordService.save(Record.builder().temperature(18.5).humidity(0.26).pressure(1011).exposure(0.52).date(LocalDateTime.now().minusHours(2)).build());
         recordService.save(Record.builder().temperature(17).humidity(0.32).pressure(1022).exposure(0.41).date(LocalDateTime.now().minusHours(3)).build());
