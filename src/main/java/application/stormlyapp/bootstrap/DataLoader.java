@@ -36,27 +36,25 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private void loadData() {
         //adding custom updated data for hourly
-        recordService.save(Record.builder().temperature(19).humidity(0.12).pressure(1002).exposure(0.80).date(LocalDateTime.now()).build());
-        recordService.save(Record.builder().temperature(9).humidity(0.15).pressure(1011).exposure(0.11).date(LocalDateTime.now().withHour(6)).build());
-        recordService.save(Record.builder().temperature(9).humidity(0.15).pressure(1011).exposure(0.17).date(LocalDateTime.now().withHour(7)).build());
-        recordService.save(Record.builder().temperature(18).humidity(0.18).pressure(1002).exposure(0.60).date(LocalDateTime.now().minusHours(1)).build());
-        recordService.save(Record.builder().temperature(18.5).humidity(0.26).pressure(1011).exposure(0.52).date(LocalDateTime.now().minusHours(2)).build());
-        recordService.save(Record.builder().temperature(17).humidity(0.32).pressure(1022).exposure(0.41).date(LocalDateTime.now().minusHours(3)).build());
-        recordService.save(Record.builder().temperature(15).humidity(0.41).pressure(1022).exposure(0.30).date(LocalDateTime.now().minusHours(4)).build());
+        recordService.save(Record.builder().temperature(1).humidity(0.12).pressure(1002).exposure(0.41).date(LocalDateTime.now()).build());
+        recordService.save(Record.builder().temperature(0).humidity(0.18).pressure(1002).exposure(0.40).date(LocalDateTime.now().minusHours(1)).build());
+        recordService.save(Record.builder().temperature(-2).humidity(0.26).pressure(1011).exposure(0.42).date(LocalDateTime.now().minusHours(2)).build());
+        recordService.save(Record.builder().temperature(-2).humidity(0.32).pressure(1022).exposure(0.31).date(LocalDateTime.now().minusHours(3)).build());
+        recordService.save(Record.builder().temperature(-5).humidity(0.41).pressure(1022).exposure(0.20).date(LocalDateTime.now().minusHours(4)).build());
 
-        recordService.save(Record.builder().temperature(12).humidity(0.66).pressure(999).exposure(0.60).date(LocalDateTime.now().minusDays(1)).build());
-        recordService.save(Record.builder().temperature(16.7).humidity(0.13).pressure(1021).exposure(0.60).date(LocalDateTime.now().minusHours(1).minusDays(1)).build());
+        recordService.save(Record.builder().temperature(1).humidity(0.66).pressure(999).exposure(0.60).date(LocalDateTime.now().minusDays(1)).build());
+        recordService.save(Record.builder().temperature(-3).humidity(0.53).pressure(1021).exposure(0.60).date(LocalDateTime.now().minusHours(1).minusDays(1)).build());
 
-        recordService.save(Record.builder().temperature(18.5).humidity(0.26).pressure(1011).exposure(0.52).date(LocalDateTime.now().minusHours(2).minusDays(2)).build());
-        recordService.save(Record.builder().temperature(17).humidity(0.32).pressure(1022).exposure(0.41).date(LocalDateTime.now().minusHours(3).minusDays(2)).build());
+        recordService.save(Record.builder().temperature(0).humidity(0.26).pressure(1011).exposure(0.52).date(LocalDateTime.now().minusHours(2).minusDays(2)).build());
+        recordService.save(Record.builder().temperature(-2).humidity(0.32).pressure(1022).exposure(0.41).date(LocalDateTime.now().minusHours(3).minusDays(2)).build());
 
-        recordService.save(Record.builder().temperature(12).humidity(0.53).pressure(1011).exposure(0.30).date(LocalDateTime.now().minusHours(4).minusDays(3)).build());
-        recordService.save(Record.builder().temperature(11).humidity(0.45).pressure(1002).exposure(0.60).date(LocalDateTime.now().minusDays(3)).build());
-        recordService.save(Record.builder().temperature(9).humidity(0.32).pressure(1000).exposure(0.70).date(LocalDateTime.now().minusHours(1).minusDays(3)).build());
-        recordService.save(Record.builder().temperature(6).humidity(0.33).pressure(1010).exposure(0.52).date(LocalDateTime.now().minusHours(2).minusDays(3)).build());
+        recordService.save(Record.builder().temperature(5).humidity(0.23).pressure(1011).exposure(0.30).date(LocalDateTime.now().minusHours(4).minusDays(3)).build());
+        recordService.save(Record.builder().temperature(2).humidity(0.45).pressure(1002).exposure(0.40).date(LocalDateTime.now().minusDays(3)).build());
+        recordService.save(Record.builder().temperature(0).humidity(0.32).pressure(1000).exposure(0.60).date(LocalDateTime.now().minusHours(1).minusDays(3)).build());
+        recordService.save(Record.builder().temperature(-2).humidity(0.33).pressure(1010).exposure(0.52).date(LocalDateTime.now().minusHours(2).minusDays(3)).build());
 
-        recordService.save(Record.builder().temperature(5).humidity(0.22).pressure(1012).exposure(0.55).date(LocalDateTime.now().minusHours(3).minusDays(4)).build());
-        recordService.save(Record.builder().temperature(4).humidity(0.33).pressure(1006).exposure(0.33).date(LocalDateTime.now().minusHours(4).minusDays(4)).build());
+        recordService.save(Record.builder().temperature(2).humidity(0.22).pressure(1012).exposure(0.55).date(LocalDateTime.now().minusHours(3).minusDays(4)).build());
+        recordService.save(Record.builder().temperature(1).humidity(0.33).pressure(1006).exposure(0.33).date(LocalDateTime.now().minusHours(4).minusDays(4)).build());
     }
 
     private void addDefaultUsers() {
