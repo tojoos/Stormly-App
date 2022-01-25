@@ -35,7 +35,7 @@
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.login}"></td>
-                    <td th:text="${user.password}"></td>
+                    <td th:text="'********'"></td>
                     <td><a th:href="@{'/control-panel/delete/'+ ${user.id}}">Delete</a></td>
                 </tr>
             </tbody>

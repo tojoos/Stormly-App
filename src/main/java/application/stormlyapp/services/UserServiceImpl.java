@@ -4,6 +4,7 @@ import application.stormlyapp.exceptions.NotFoundException;
 import application.stormlyapp.model.User;
 import application.stormlyapp.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -61,9 +62,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserValid(String login, String password) {
+        Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder();
         User userFound = this.findByLogin(login);
         if(userFound != null) {
-            return userFound.getPassword().equals(password);
+            return pbkdf2PasswordEncoder.matches(password, userFound.getPassword());
         } else {
             return false;
         }
